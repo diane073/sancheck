@@ -1,0 +1,18 @@
+
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-body">
+            <div class="media">
+                <div class="media-body">
+                    <h5 class="mt-0">{{ post.name }}</h5>
+                    <img src="/media/{{ post.img_path }}">
+                    <p>설명 : {{ post.description }}</p>
+                    {% if post.author == user %}
+                        <a class="nav-link" href="/post/update/{{post.id}}"> 수정하기 <span class="sr-only"></span></a>
+                        <a class="nav-link" href="/post/delete/{{post.id}}"> 삭제하기 <span class="sr-only"></span></a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
