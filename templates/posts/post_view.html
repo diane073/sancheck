@@ -1,0 +1,15 @@
+{% for post in posts %}
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-body">
+            <div class="media">
+                <div class="media-body">
+                    <h5 class="mt-0">{{ post.name }}</h5>
+                    <img src="/media/{{ post.img_path }}">
+                     <a class="nav-link" href="/post/{{post.id}}"> 상세보기 <span class="sr-only"></span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
