@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+<!-- Blank -->
+{% block title%} 회원가입 {% endblock %}
+<!-- Blank -->
+{% block content %}
+<div class="container">
+  <div class="wrap">
+    <h2 class="title-center">회원가입</h2>
+    <form
+      class="form-area"
+      method="POST"
+      action={% url "signup" %}
+      style="width: 480px; margin: 0 auto"
+    >
+      {% csrf_token %}
+      <!-- blank -->
+      {% if form %}
+      <!-- blank -->
+      {% for field in form %}
+      <!-- blank -->
+      <div class="form-group mt-2 mb-2">
+        {{field.label_tag}} {{field}} {{field.errors}}
+      </div>
+      <!-- blank -->
+      {% endfor %}
+      <!-- blank -->
+      {% endif %}
+      <hr />
+      <div style="float: right">
+        <button type="submit" class="btn btn-primary">회원가입</button>
+        <a href="/sign-in" class="btn btn-secondary">로그인 페이지로</a>
+      </div>
+    </form>
+  </div>
+</div>
+
+{% endblock %}
