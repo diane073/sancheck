@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import SignupForm
 
 
-def signup(request):
+def signup_view(request):
     if request.method == "POST":
         form = SignupForm(request.POST)
         if form.is_valid():
@@ -19,6 +19,7 @@ def signup(request):
 
     form = SignupForm()
     return render(request, "users/signup.html", {"form": form})
+
 
 def login(request):
     if request.method == "POST":
