@@ -5,8 +5,10 @@ from django import forms
 # form
 
 
-class ProductForm(forms.ModelForm):
+class CommentForm(forms.ModelForm):
     class Meta:
         model = CommentModel
-        CommentModel.objects.name("USER")
         fields = ["content", "created_at"]
+
+    def __str__(self):
+        return self.name
