@@ -1,9 +1,10 @@
-
 <div class="col-md-12">
     <div class="card">
         <div class="card-body">
             <div class="media">
                 <div class="media-body">
+                    만든사람 : {{ post.author }}
+                    로그인한 사람 : {{ user }}
                     <h5 class="mt-0">{{ post.name }}</h5>
                     <img src="/media/{{ post.img_path }}">
                     <p>설명 : {{ post.description }}</p>
