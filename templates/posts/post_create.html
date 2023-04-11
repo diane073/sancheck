@@ -1,4 +1,6 @@
-  <h1>게시물 추가</h1>
+{% extends 'base.html' %}
+{% block content %}
+<h1>게시물 추가</h1>
      {% if id %}
         <form class="form-area" method="post" enctype="multipart/form-data" action="/post/update/{{ id }}" >
     {% else %}
@@ -13,3 +15,4 @@
     {% endif %}
     <button type="submit">추가</button>
   </form>
+{% endblock content %}
