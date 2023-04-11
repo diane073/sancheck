@@ -10,7 +10,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name="PostModel",
+            name="CommentModel",
             fields=[
                 (
                     "id",
@@ -21,11 +21,18 @@ class Migration(migrations.Migration):
                         verbose_name="ID",
                     ),
                 ),
-                ("name", models.CharField(max_length=50)),
-                ("description", models.TextField(max_length=256)),
-                ("img_path", models.ImageField(upload_to="")),
-                ("created_at", models.DateTimeField(auto_now_add=True)),
-                ("updated_at", models.DateTimeField(auto_now=True)),
+                ("content", models.CharField(help_text="500자를 넘었습니다.", max_length=500)),
+                (
+                    "created_at",
+                    models.DateTimeField(auto_now_add=True, verbose_name="created at"),
+                ),
+                (
+                    "updated_at",
+                    models.DateTimeField(auto_now=True, verbose_name="updated at"),
+                ),
             ],
+            options={
+                "db_table": "comment_data",
+            },
         ),
     ]
