@@ -19,3 +19,27 @@ def signup(request):
 
     form = SignupForm()
     return render(request, "users/signup.html", {"form": form})
+
+def login(request):
+    if request.method == "POST":
+        username = request.POST.get('username', '')
+        password = request.POST.get('password', '')
+
+        user = auth.authenticate(request, username=username, password=password ) 
+        if user is not None:
+            auth.login(request, user)
+            return redirect('/')
+        else:
+            return render(request, '/users/signin.html', {'error':'아이디 또는 비밀번호를 확인해주세요'})
+    
+    elif request.method == "GET":
+        user = request.user.is_authenticated
+        if user:
+            return redirect("/")
+        else:
+            return render(request, "users/signin.html")
+
+@login_required        
+def logout(request):
+    auth.logout(request)
+    return redirect("/")
