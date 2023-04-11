@@ -17,9 +17,9 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
-MEDIA_URL = '/media/'
+MEDIA_URL = "/media/"
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
@@ -44,6 +44,13 @@ INSTALLED_APPS = [
     "users.apps.UsersConfig",
     "posts.apps.PostsConfig",
     "comments.apps.CommentsConfig",
+    # ✅ ↓ For Email Authentication
+    "django.contrib.sites",  # 사이트 정보 설정에 필요
+    "allauth",
+    "allauth.account",  # 사이트에 가입한 계정을 관리하기 위해
+    "allauth.socialaccount",  # 소셜 계정을 관리하기 위해
+    "allauth.socialaccount.providers.naver",
+    "allauth.socialaccount.providers.kakao",
 ]
 
 MIDDLEWARE = [
@@ -122,11 +129,33 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = "static/"
+STATIC_URL = "/static/"
+
+# ✅ ↓ Specify the path of static files
+STATICFILES_DIRS = [
+    path.join(BASE_DIR, "static"),
+]
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+
 AUTH_USER_MODEL = "users.CustomUser"
+
+# ✅ ↓ For Email Authentication
+SITE_ID = 1
+
+AUTHENTICATION_BACKENDS = {
+    "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend",
+}
+
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+ACCOUNT_AUTHENTICATION_METHOD = "email"
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"  # none, optional, mandatory
+ACCOUNT_CONFIRM_EMIAL_ON_GET = True
