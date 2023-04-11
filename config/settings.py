@@ -51,6 +51,9 @@ INSTALLED_APPS = [
     "allauth.socialaccount",  # 소셜 계정을 관리하기 위해
     "allauth.socialaccount.providers.naver",
     "allauth.socialaccount.providers.kakao",
+    "user",
+    "posts",
+    "comments",
 ]
 
 MIDDLEWARE = [

@@ -6,9 +6,6 @@ from .models import PostModel
 from .forms import PostForm
 
 
-# Create your views here.
-
-
 def home(request):
 
     posts = PostModel.objects.all().order_by('-created_at')
