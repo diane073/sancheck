@@ -5,6 +5,8 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from .models import PostModel
 from .forms import PostForm
 
+# Create your views here.
+
 
 def home(request):
     posts = PostModel.objects.all().order_by("-created_at")
@@ -35,6 +37,11 @@ def home(request):
         {"posts": posts, "page_obj": page_obj, "custom_range": custom_range},
     )
 
+    posts = PostModel.objects.all().order_by("-created_at")
+    page = request.GET.get("page")
+    max_post = 2  # 페이지 1개당 생성될 포스트 개수
+    paginator = Paginator(posts, max_post)
+
 
 @login_required
 def post_view(request):
@@ -45,33 +52,33 @@ def post_view(request):
     elif request.method == "POST":
         post_upload = PostForm(request.POST, request.FILES)
         if post_upload.is_valid():
-            new_post = PostModel()
-            new_post.author = request.user
-            new_post.name = post_upload.cleaned_data["name"]
-            new_post.description = post_upload.cleaned_data["description"]
-            new_post.img_path = post_upload.cleaned_data["img_path"]
-            new_post.save()
+            m = PostModel()
+            m.author = request.user
+            m.name = post_upload.cleaned_data["name"]
+            m.description = post_upload.cleaned_data["description"]
+            m.img_path = post_upload.cleaned_data["img_path"]
+            m.save()
             return redirect("/")
 
     return redirect("/user/login")
 
 
 @login_required
-def post_update(request, id):
-    post = get_object_or_404(PostModel, id=id)
+def post_update(request, post_id):
+    post = get_object_or_404(PostModel, id=post_id)
     if request.method == "POST":
-        form = PostForm(request.POST, request.FILES, instance=post)  # ✅
+        form = PostForm(request.POST, request.FILES, instance=post)
         if form.is_valid():
-            PostModel.objects.filter(id=id).update(
+            PostModel.objects.filter(id=post_id).update(
                 name=form.cleaned_data["name"],
                 description=form.cleaned_data["description"],
                 img_path=request.FILES.get("img_path", post.img_path),
                 updated_at=datetime.datetime.now(),
             )
-            return redirect("/post/" + str(id))
+            return redirect("/post/" + str(post_id))
     else:
-        form = PostForm(instance=post)  # ✅
-    return render(request, "posts/post_create.html", {"form": form, "id": id})
+        form = PostForm(instance=post)
+    return render(request, "posts/post_create.html", {"form": form, "id": post_id})
 
 
 def post_delete(request, id):
@@ -80,6 +87,6 @@ def post_delete(request, id):
     return redirect("/")
 
 
-def post_detail(request, id):
-    post = PostModel.objects.get(id=id)
+def post_detail(request, post_id):
+    post = PostModel.objects.get(id=post_id)
     return render(request, "posts/post_detail.html", {"post": post})
