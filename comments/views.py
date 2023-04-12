@@ -21,6 +21,8 @@ def comment_view(request):
             return {"error_message": message}
         elif all_comments:
             return render(request, "/post/<int:_id>/detail", {"comments": all_comments})
+    else:
+        raise NotImplementedError()
 
 
 def comment_post(request):
