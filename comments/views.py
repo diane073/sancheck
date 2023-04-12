@@ -1,9 +1,10 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, render_to_response, redirect
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from .models import CommentModel
 from .forms import CommentForm
 from django.http import HttpResponse
+from django.core.paginator import Paginator
 from posts.views import post_detail
 
 # Create your views here.
@@ -52,17 +53,17 @@ def comment_delete_post(request):
 
 def my_comment_view(request, page=1):
     if request.method == "GET":
-        cmt_amount = 10
-        start_cmt = (page - 1) * cmt_amount
-        end_cmt = start_cmt + cmt_amount
+        # 내 댓글 불러오기, author정보기반
+        author = CommentModel.author
+        my_comment = CommentModel.objects.all(author=author).order_by("-created")
 
         comment_title = "내 댓글 목록"
 
-        # 내 댓글 불러오기, author정보기반
-        author = CommentModel.author
-        my_comment = CommentModel.objects.all(author=author)[
-            start_cmt:end_cmt
-        ].order_by("-created")
+        paginator = Paginator(my_comment, 10)
+        page = request.GET.get("page")
+        page_obj = paginator.page(page)
 
         # return HttpResponse ('[%s]' % commnet_title)
-        return render("/comment/my", {"my_comment": my_comment})
+        return render_to_response(
+            "/comment/my", {"my_comment": my_comment, "page_obj": page_obj}
+        )
