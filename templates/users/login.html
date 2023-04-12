@@ -1,63 +1,36 @@
 {% extends "base.html" %}
-<!-- blank -->
-{% load static %}
-<!-- blank -->
-{% static 'social_btns/naver_login_btnG_official.png' as naver_btn %} {% static
-'social_btns/kakao_login_btn_official.png' as kakao_btn %}
-<!-- 소셜 로그인 추가 -->
-{% load i18n %} {% load account socialaccount %}
-<!-- blank -->
+<!-- Blank -->
+{% block title%} 로그인 {% endblock %}
+<!-- Blank -->
+{% block content %}
+<div class="container">
+    <div class="wrap" style="width: 400px; margin: 0 auto;">
+        <h2 class="title-center" style="text-align:center; margin-top:50px;"> 로그인</h2>
+        <form class="form-area" method="POST" action="/signin/">
+            {% csrf_token %}
+            <div class="form-group mt-2 mb-2">
+                <label for="username">이름</label>
+                <input type="text" class="form-control" id="username" name="username">
+            </div>
+            <div class="form-group mt-2 mb-2">
+                <label for="password">비밀번호</label>
+                <input type="password" class="form-control" id="password" name="password">
+            </div>
+            <hr>
+            <hr>
+            {% if error %}
+            <div class="alert alert-danger" role="alert">
+                {{ error }}
+            </div>
+            {% endif %}
+            <div style="float: right">
+                <button type="submit" class="btn btn-primary">로그인</button>
+                <a href="/user/signup" class="btn btn-secondary">회원가입 페이지로</a>
+            </div>
+        </form>
+    </div>
+</div>
+</div>
+</div>
 
-{% block title%} 로그인 {%endblock%}
-<!-- blank -->
-{% block content%}
-<h1>로그인</h1>
-
-{% get_providers as socialaccount_providers %}
-<!-- blank -->
-
-<div class="panel-heading">소셜로그인</div>
-<div class="panel-body text-center"></div>
-<ul class="socialaccount_providers">
-  <!--  프로바이더의 순서는 settings.py에 지정한 순서인 듯하다.  -->
-  {% for provider in socialaccount_providers %} {% if provider.id == "openid" %}
-  {% for brand in provider.get_brands %}
-  <li>
-    <a
-      title="{{brand.name}}"
-      class="socialaccount_provider {{provider.id}} {{brand.id}}"
-      href="{% provider_login_url provider.id openid=brand.openid_url process=process %}"
-      >{{brand.name}}</a
-    >
-  </li>
-  {% endfor %} {% endif %}
-
-  <!--제공자에 따라 만들어짐.-->
-  {% if provider.name == "Naver" %}
-  <div class="pull-left">
-    <a
-      href="{% provider_login_url provider.id process=process scope=scope auth_params=auth_params %}"
-    >
-      <img src="{{ naver_btn }}" height="34" />
-      네이버 회원가입
-    </a>
-  </div>
-
-  <!-- 다양한 방식으로 구성할 수 있다. -->
-  {% elif provider.name == "Kakao" %}
-  <a href="{% provider_login_url 'kakao' method='oauth2' %}">
-    <img src="{{ kakao_btn }}" height="34" />
-    카카오 회원가입
-  </a>
-
-  {% else %}
-  <li>
-    <a
-      title="{{provider.name}}"
-      class="socialaccount_provider {{provider.id}}"
-      href="{% provider_login_url provider.id process=process scope=scope auth_params=auth_params %}"
-      >{{provider.name}}</a
-    >
-  </li>
-  {% endif %} {% endfor %} {%endblock%}
-</ul>
+{% endblock %}
