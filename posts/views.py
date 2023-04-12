@@ -37,11 +37,6 @@ def home(request):
         {"posts": posts, "page_obj": page_obj, "custom_range": custom_range},
     )
 
-    posts = PostModel.objects.all().order_by("-created_at")
-    page = request.GET.get("page")
-    max_post = 2  # 페이지 1개당 생성될 포스트 개수
-    paginator = Paginator(posts, max_post)
-
 
 @login_required
 def post_view(request):
@@ -88,5 +83,5 @@ def post_delete(request, id):
 
 
 def post_detail(request, post_id):
-    post = PostModel.objects.get(id=post_id)
+    post = PostModel.objects.get(model=post_id)
     return render(request, "posts/post_detail.html", {"post": post})
