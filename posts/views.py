@@ -52,33 +52,33 @@ def post_view(request):
     elif request.method == "POST":
         post_upload = PostForm(request.POST, request.FILES)
         if post_upload.is_valid():
-            m = PostModel()
-            m.author = request.user
-            m.name = post_upload.cleaned_data["name"]
-            m.description = post_upload.cleaned_data["description"]
-            m.img_path = post_upload.cleaned_data["img_path"]
-            m.save()
+            new_post = PostModel()
+            new_post.author = request.user
+            new_post.name = post_upload.cleaned_data["name"]
+            new_post.description = post_upload.cleaned_data["description"]
+            new_post.img_path = post_upload.cleaned_data["img_path"]
+            new_post.save()
             return redirect("/")
 
     return redirect("/user/login")
 
 
 @login_required
-def post_update(request, post_id):
-    post = get_object_or_404(PostModel, id=post_id)
+def post_update(request, id):
+    post = get_object_or_404(PostModel, id=id)
     if request.method == "POST":
-        form = PostForm(request.POST, request.FILES, instance=post)
+        form = PostForm(request.POST, request.FILES, instance=post)  # ✅
         if form.is_valid():
-            PostModel.objects.filter(id=post_id).update(
+            PostModel.objects.filter(id=id).update(
                 name=form.cleaned_data["name"],
                 description=form.cleaned_data["description"],
                 img_path=request.FILES.get("img_path", post.img_path),
                 updated_at=datetime.datetime.now(),
             )
-            return redirect("/post/" + str(post_id))
+            return redirect("/post/" + str(id))
     else:
-        form = PostForm(instance=post)
-    return render(request, "posts/post_create.html", {"form": form, "id": post_id})
+        form = PostForm(instance=post)  # ✅
+    return render(request, "posts/post_create.html", {"form": form, "id": id})
 
 
 def post_delete(request, id):
