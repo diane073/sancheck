@@ -26,22 +26,19 @@ class SignupForm(forms.ModelForm):
             "password1",
             "password2",
             "nickname",
-            "email",
             "address",
             "is_pet_host",
             "pet_kind",
         )
         labels = {
-            "username": "아이디",
+            "username": "이메일",
             "nickname": "닉네임",
-            "email": "이메일",
             "address": "주소",
             "pet_kind": "어떤 반려동물을 기르나요?",
         }
         widgets = {
-            "username": forms.TextInput(attrs={"class": "form-control"}),
+            "username": forms.EmailInput(attrs={"class": "form-control"}),
             "nickname": forms.TextInput(attrs={"class": "form-control"}),
-            "email": forms.EmailInput(attrs={"class": "form-control"}),
             "address": forms.TextInput(attrs={"class": "form-control"}),
             "pet_kind": forms.Select(
                 attrs={"class": "form-control"},

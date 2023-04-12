@@ -26,7 +26,11 @@ def signup(request):
             password = form.cleaned_data.get("password1")
             user.set_password(password)
             user.save()
-            return redirect("/user/signup")
+            return redirect("/user/login")
+        else:
+            error = "양식을 모추 채워주세요."
+            context = {"error": error, "form": form}
+            return render(request, "users/signup.html", context)
 
     form = SignupForm()
     return render(request, "users/signup.html", {"form": form})
