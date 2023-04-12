@@ -4,17 +4,24 @@
 <!-- blank -->
 
 {% block content %}
+
 <div>
   현재 로그인 유저 : {{ user }}
   <a class="nav-link" href="/post/note">
     글적기 <span class="sr-only"></span
   ></a>
+  <a class="nav-link" href="/user/logout">
+    로그아웃 <span class="sr-only"></span
+  ></a>
 </div>
+
     {% if user %}
 <div class="profile__cta">
     <a class="button" href="/post/my">내가 쓴 글 보기!</a>
 </div>
     {% endif %}
+
+
 <main>
   {% for post in page_obj %}
   <section>
