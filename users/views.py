@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import SignupForm
 
 
-def signup_view(request):
+def signup(request):
     if request.method == "POST":
         form = SignupForm(request.POST)
         if form.is_valid():
@@ -23,16 +23,18 @@ def signup_view(request):
 
 def login(request):
     if request.method == "POST":
-        username = request.POST.get('username', '')
-        password = request.POST.get('password', '')
+        username = request.POST.get("username", "")
+        password = request.POST.get("password", "")
 
-        user = auth.authenticate(request, username=username, password=password ) 
+        user = auth.authenticate(request, username=username, password=password)
         if user is not None:
             auth.login(request, user)
-            return redirect('/')
+            return redirect("/")
         else:
-            return render(request, '/users/signin.html', {'error':'아이디 또는 비밀번호를 확인해주세요'})
-    
+            return render(
+                request, "/users/signin.html", {"error": "아이디 또는 비밀번호를 확인해주세요"}
+            )
+
     elif request.method == "GET":
         user = request.user.is_authenticated
         if user:
@@ -40,7 +42,8 @@ def login(request):
         else:
             return render(request, "users/signin.html")
 
-@login_required        
+
+@login_required
 def logout(request):
     auth.logout(request)
     return redirect("/")
