@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from .models import CommentModel
 from django.http import HttpResponse
+from posts.views import post_detail
 
 # Create your views here.
 # /post/<int:_id>/detail < 글 상세보기 경로
@@ -46,3 +47,21 @@ def comment_delete_post(request):
     comment = CommentModel.objects.get(id=id)
     comment.delete
     return redirect("/post/<int:_id>/detail")
+
+
+def my_comment_view(request, page=1):
+    if request.method == "GET":
+        cmt_amount = 10
+        start_cmt = (page - 1) * cmt_amount
+        end_cmt = start_cmt + cmt_amount
+
+        comment_title = "내 댓글 목록"
+
+        # 내 댓글 불러오기, author정보기반
+        author = CommentModel.author
+        my_comment = CommentModel.objects.all(author=author)[
+            start_cmt:end_cmt
+        ].order_by("-created")
+
+        # return HttpResponse ('[%s]' % commnet_title)
+        return render("/comment/my", {"my_comment": my_comment})
