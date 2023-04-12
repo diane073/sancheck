@@ -11,11 +11,16 @@ from .models import CommentModel
 @csrf_exempt
 def comment_view(request):
     if request.method == "GET":
-        # 게시글 내용이 뜰때 같이 가져옴
+        # 게시글 내용이 뜰때 같이 가져옴``
         # 여기 경로 이름 확인해야함
         all_comments = CommentModel()
         return render(request, "/post/<int:_id>/detail", {"comments": all_comments})
-    elif request.method == "POST":
+    else:
+        raise NotImplementedError()
+
+
+def comment_post(request):
+    if request.method == "POST":
         # 코멘트 쓰기, 업로드
         # 업로드시 자신이 쓴 내역 가져오기
         write_comments = CommentModel(request.POST)
@@ -24,7 +29,7 @@ def comment_view(request):
             # 댓글 내용이 없을 경우
             # 여기도 경로 확인해야함
             # 가능하다면 html에 {{error_message}} 띄워주기
-            message = "댓글 내용이 없습니다"
+            message = "댓글 내용을 적어주세요"
             return render(request, "/comment/note", {"error_message": message})
 
         elif write_comments.is_valid():
@@ -32,7 +37,7 @@ def comment_view(request):
             return redirect("/post/<int:_id>/detail")
 
 
-# def comment_post(request):
+#
 # comment 보여주는것은 post detail에 가져다 붙이고 따로 만들어야할지 고민..
 
 
