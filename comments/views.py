@@ -12,22 +12,6 @@ from django.http import HttpResponse
 @login_required
 @csrf_exempt
 def comment_view(request):
-<<<<<<< HEAD
-    if request.method == "GET":
-        # 게시글 내용이 뜰때 같이 가져옴``
-        # 여기 경로 이름 확인해야함
-        all_comments = CommentModel()
-        return render(request, "/post/<int:_id>/detail", {"comments": all_comments})
-    else:
-        raise NotImplementedError()
-
-
-def comment_post(request):
-    if request.method == "POST":
-        # 코멘트 쓰기, 업로드
-        # 업로드시 자신이 쓴 내역 가져오기
-        write_comments = CommentModel(request.POST)
-=======
     if request.method == "GET":  # -> posts쪽에 병합하는것으로
         # 게시글 내용이 뜰때 같이 가져옴
         # 여기 경로 이름 확인해야함
@@ -37,7 +21,8 @@ def comment_post(request):
             return {"error_message": message}
         elif all_comments:
             return render(request, "/post/<int:_id>/detail", {"comments": all_comments})
->>>>>>> new
+    else:
+        raise NotImplementedError()
 
 
 def comment_post(request):
@@ -54,15 +39,8 @@ def comment_post(request):
         elif write_comments.is_valid():
             write_comments.save()
             return redirect("/post/<int:_id>/detail")
-<<<<<<< HEAD
-
-
-#
-# comment 보여주는것은 post detail에 가져다 붙이고 따로 만들어야할지 고민..
-=======
     else:
         return HttpResponse("댓글 포스트에 실패하였습니다")
->>>>>>> new
 
 
 def comment_delete_post(request):
