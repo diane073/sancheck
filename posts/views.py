@@ -37,6 +37,12 @@ def home(request):
 
 
 @login_required
+def my_post_view(request):
+    posts = PostModel.objects.filter(author=request.user).order_by('-updated_at')
+    return render(request, 'posts/my_post_page.html', {'posts': posts})
+
+
+@login_required
 def post_view(request):
     if request.method == 'GET':
         form = PostForm()
