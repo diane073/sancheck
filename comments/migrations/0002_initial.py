@@ -10,15 +10,23 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
+        ("comments", "0001_initial"),
         ("posts", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name="postmodel",
+            model_name="commentmodel",
             name="author",
             field=models.ForeignKey(
                 on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL
+            ),
+        ),
+        migrations.AddField(
+            model_name="commentmodel",
+            name="posts",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to="posts.postmodel"
             ),
         ),
     ]
