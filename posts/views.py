@@ -3,6 +3,8 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from .models import PostModel
+from comments.models import CommentModel
+from comments.forms import CommentForm
 from .forms import PostForm
 
 
@@ -44,6 +46,7 @@ def post_view(request):
         post_upload = PostForm(request.POST, request.FILES)
         if post_upload.is_valid():
             m = PostModel()
+
             m.author = request.user
             m.name = post_upload.cleaned_data['name']
             m.description = post_upload.cleaned_data['description']
@@ -66,7 +69,7 @@ def post_update(request, post_id):
                 img_path=request.FILES.get('img_path', post.img_path),
                 updated_at=datetime.datetime.now(),
             )
-            return redirect('/post/' + str(post_id))
+            return redirect('/post/' + str(post_id) + '/detail')
     else:
         form = PostForm(instance=post)
     return render(request, 'posts/post_create.html', {'form': form, 'id': post_id})
@@ -79,5 +82,7 @@ def post_delete(request, post_id):
 
 
 def post_detail(request, post_id):
+    form = CommentForm()
     post = PostModel.objects.get(id=post_id)
-    return render(request, 'posts/post_detail.html', {'post': post})
+    comment = CommentModel.objects.filter(posts_id=post_id).order_by('-updated_at')
+    return render(request, 'posts/post_detail.html', {'form': form, 'post': post, 'comment': comment})

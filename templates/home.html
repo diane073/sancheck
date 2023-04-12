@@ -5,7 +5,7 @@
 
 {% block content %}
 <div>
-  현재 로그인 : {{ user }}
+  현재 로그인 유저 : {{ user }}
   <a class="nav-link" href="/post/note">
     글적기 <span class="sr-only"></span
   ></a>
@@ -23,23 +23,10 @@
       </div>
       <div class="profile__info">
         <h3>{{ post.name }}</h3>
-        <p class="profile__info__extra">짤막설명</p>
         {# 작성자 펫정보 가져와서 출력 #}
       </div>
-      <div class="profile__stats">
-        <p class="profile__stats__title">Type</p>
-        <h5 class="profile__stats__info">Puppy</h5>
-      </div>
-      <div class="profile__stats">
-        <p class="profile__stats__title">Size</p>
-        <h5>Medium</h5>
-      </div>
-      <div class="profile__stats">
-        <p class="profile__stats__title">Weight</p>
-        <h5 class="profile__stats__info">45.85 lbs</h5>
-      </div>
       <div class="profile__cta">
-        <a class="button" href="/post/{{post.id}}">Click!</a>
+        <a class="button" href="/post/{{post.id}}/detail">Click!</a>
       </div>
     </div>
   </section>
