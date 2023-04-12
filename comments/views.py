@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from .models import CommentModel
+from .forms import CommentForm
 from django.http import HttpResponse
 
 # Create your views here.
