@@ -32,7 +32,7 @@ def comment_post(request):
             # 댓글 내용이 없을 경우
             # 여기도 경로 확인해야함
             # 가능하다면 html에 {{error_message}} 띄워주기
-            message = "댓글 내용이 없습니다"
+            message = "댓글 내용을 적어주세요"
             return render(request, "/comment/note", {"error_message": message})
 
         elif write_comments.is_valid():
