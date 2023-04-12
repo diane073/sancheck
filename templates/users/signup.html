@@ -4,13 +4,12 @@
 <!-- Blank -->
 {% block content %}
 <div class="container">
-  <div class="wrap">
-    <h2 class="title-center">회원가입</h2>
+  <div class="wrap" style="width: 400px; margin: 0 auto">
+    <h2 class="title-center" style="text-align: center; margin-top: 50px">회원가입</h2>
     <form
       class="form-area"
       method="POST"
       action={% url "signup" %}
-      style="width: 480px; margin: 0 auto"
     >
       {% csrf_token %}
       <!-- blank -->
@@ -25,10 +24,13 @@
       {% endfor %}
       <!-- blank -->
       {% endif %}
+      {% if error %}
+      <div class="alert alert-danger" role="alert">{{ error }}</div>
+      {% endif %}
       <hr />
       <div style="float: right">
         <button type="submit" class="btn btn-primary">회원가입</button>
-        <a href="/user/login" class="btn btn-secondary">로그인 페이지로</a>
+        <a href={% url "login" %} class="btn btn-secondary">로그인 페이지로</a>
       </div>
     </form>
   </div>

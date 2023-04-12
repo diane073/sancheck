@@ -1,5 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.core.validators import EmailValidator
+
+
+email_validator = EmailValidator()
 
 
 class CustomUser(AbstractUser):
@@ -16,6 +20,14 @@ class CustomUser(AbstractUser):
         HASMTER = ("hamster", "햄스터")
         ETC = ("etc", "그외")
 
+    username = models.EmailField(
+        max_length=150,
+        unique=True,
+        validators=[email_validator],
+        error_messages={
+            "unique": ("계정이 이미 존재합니다."),
+        },
+    )
     nickname = models.CharField(
         max_length=120,
     )
