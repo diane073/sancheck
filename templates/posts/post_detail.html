@@ -9,9 +9,11 @@
           <p>설명 : {{ post.description }}</p>
           {% if post.author == user %}
           <a class="nav-link" href="/post/update/{{post.id}}">
-            수정하기 <span class="sr-only"></span></a>
+            <span class="sr-only">수정하기</span>
+          </a>
           <a class="nav-link" href="/post/delete/{{post.id}}">
-            삭제하기 <span class="sr-only"></span></a>
+            <span class="sr-only">삭제하기</span>
+          </a>
           {% endif %}
         </div>
       </div>
