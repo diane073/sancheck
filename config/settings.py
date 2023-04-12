@@ -45,12 +45,12 @@ INSTALLED_APPS = [
     "posts.apps.PostsConfig",
     "comments.apps.CommentsConfig",
     # ✅ ↓ For Email Authentication
-    # "django.contrib.sites",  # 사이트 정보 설정에 필요
-    # "allauth",
-    # "allauth.account",  # 사이트에 가입한 계정을 관리하기 위해
-    # "allauth.socialaccount",  # 소셜 계정을 관리하기 위해
-    # "allauth.socialaccount.providers.naver",
-    # "allauth.socialaccount.providers.kakao",
+    "django.contrib.sites",  # 사이트 정보 설정에 필요
+    "allauth",
+    "allauth.account",  # 사이트에 가입한 계정을 관리하기 위해
+    "allauth.socialaccount",  # 소셜 계정을 관리하기 위해
+    "allauth.socialaccount.providers.naver",
+    "allauth.socialaccount.providers.kakao",
 ]
 
 MIDDLEWARE = [
