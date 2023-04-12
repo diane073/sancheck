@@ -3,6 +3,17 @@ from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 from .forms import SignupForm
 
+# ✅ ↓ For Email Authentication
+# from allauth.account.views import SignupView
+
+
+# class AuthSignupView(SignupView):
+#     app_name = "users"
+#     template_name = "templates/users/signup.html"
+
+
+# auth_signup_view = AuthSignupView.as_view()
+
 
 def signup(request):
     if request.method == "POST":
@@ -31,16 +42,14 @@ def login(request):
             auth.login(request, user)
             return redirect("/")
         else:
-            return render(
-                request, "/users/signin.html", {"error": "아이디 또는 비밀번호를 확인해주세요"}
-            )
+            return render(request, "users/login.html", {"error": "아이디 또는 비밀번호를 확인해주세요"})
 
     elif request.method == "GET":
         user = request.user.is_authenticated
         if user:
             return redirect("/")
         else:
-            return render(request, "users/signin.html")
+            return render(request, "users/login.html")
 
 
 @login_required
