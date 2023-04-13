@@ -37,6 +37,7 @@ def comment_post(request):
             # 가능하다면 html에 {{error_message}} 띄워주기
             message = "댓글 내용을 적어주세요"
             return render(request, "/comment/note", {"error_message": message})
+            # commnet/note.html 넣어주기
 
         elif write_comments.is_valid():
             write_comments.save()
