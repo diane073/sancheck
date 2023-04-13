@@ -1,6 +1,7 @@
 from .models import CommentModel
 
 from django import forms
+from .models import CommentModel
 
 # form
 
@@ -8,7 +9,5 @@ from django import forms
 class CommentForm(forms.ModelForm):
     class Meta:
         model = CommentModel
-        fields = ["content"]
-
-    def __str__(self):
-        return self.name
+        fields = "__all__"
+        exclude = ("author", "posts")
