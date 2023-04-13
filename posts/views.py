@@ -43,6 +43,11 @@ def my_post_view(request):
     posts = PostModel.objects.filter(author=request.user).order_by('-updated_at')
     return render(request, 'posts/my_post_page.html', {'posts': posts})
 
+@login_required
+def my_comment_view(request):
+    comments = CommentModel.objects.filter(author=request.user).order_by('-updated_at')
+    return render(request, 'posts/my_comment_page.html',{'comments':comments})
+
 
 @login_required
 def post_view(request):
@@ -87,8 +92,8 @@ def post_update(request, id):
     return render(request, "posts/post_create.html", {"form": form, "id": id})
 
 
-def post_delete(request, id):
-    post = PostModel.objects.get(id=id)
+def post_delete(request, post_id):
+    post = PostModel.objects.get(id=post_id)
     post.delete()
     return redirect("/")
 
@@ -99,5 +104,6 @@ def post_detail(request, post_id):
     post = PostModel.objects.get(id=post_id)
     comment = CommentModel.objects.filter(posts_id=post_id).order_by('-updated_at')
     return render(request, 'posts/post_detail.html', {'form': form, 'post': post, 'comment': comment})
+
 
 

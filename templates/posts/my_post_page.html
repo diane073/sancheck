@@ -1,20 +1,28 @@
-{% for post in posts %}
-  <section>
-    <div class="profile profile-long">
-      <div class="profile__image">
-        <img
-          style="width: 200px; height: auto"
-          src="/media/{{ post.img_path }}"
-          alt="img"
-        />
-      </div>
-      <div class="profile__info">
-        <h3>{{ post.name }}</h3>
-        {# 작성자 펫정보 가져와서 출력 #}
-      </div>
-      <div class="profile__cta">
-        <a class="button" href="/post/{{post.id}}/detail">Click!</a>
-      </div>
+{% extends 'base.html' %}
+
+{% block title %}
+    내가 쓴 글들.
+{% endblock %}
+
+{% block content %}
+
+    <div class="mypost">
+        <ol class="list-group">
+            {% for post in posts %}
+            <li class="list-group-item active" aria-current="true">내가 쓴 글들 {{ posts.count }}건</li>
+            <li class="list-group-item d-flex justify-content-between align-items-start">
+                <div style="cursor: pointer" class="col" onclick="location.href='/post/{{ post.id }}/detail'">
+                    <div class="ms-2 me-auto">
+                        <div class="fw-bold">{{ post.name }}</div>
+                    </div>
+                    <span class="badge bg-primary rounded-pill">{{post.created_at}}</span>
+                    {% endfor %}
+
+                </div>
+            </li>
+        </ol>
     </div>
-  </section>
-{% endfor %}
+
+
+
+{% endblock %}

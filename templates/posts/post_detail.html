@@ -1,53 +1,56 @@
-<div class="col-md-12">
-  <div class="card">
-    <div class="card-body">
-      <div class="media">
-        <div class="media-body">
-          만든사람 : {{ post.author }} 로그인한 사람 : {{ user }}
-          <h5 class="mt-0">{{ post.name }}</h5>
-          <img src="/media/{{ post.img_path }}" />
-          <p>설명 : {{ post.description }}</p>
-          {% if post.author == user %}
-          <a class="nav-link" href="/post/update/{{post.id}}">
-            <span class="sr-only">수정하기</span>
-          </a>
-          <a class="nav-link" href="/post/delete/{{post.id}}">
-            <span class="sr-only">삭제하기</span>
-          </a>
-          {% endif %}
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- Comment 코멘트 Form 받아와서 붙여넣을 부분 -->
-{# 해당 부분의 액션 수정. 제 생각으론 post의 id값을 전달하고 그값을 받아서 설정해야된다.  #}
-<form class="input-group mb-3" action="/comment/{{ post.id }}" method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button class="btn btn-outline-secondary" type="submit">작성</button>
-</form>
-<hr>
-<!-- Comment 받아와서 붙이는 부분 -->
-{% for cm in comment %}
-    <div class="row">
-        <div class="col-md-12">
-            <div class="media">
-                <div class="media-body">
-                    <h5 class="mt-0"> {{ cm.content }} </h5>
-                    <span> {{ cm.author }} </span>
-                    <span> - {{ cm.created_at | timesince }} 전 작성</span>
+{% extends 'base.html' %}
+
+{% block title %}
+    글 상세보기
+{% endblock %}
+
+{% block content %}
+    <div class="detail_card">
+        <div class="card mb-3">
+                    {#여기 이미지 깨져나옵니다. 어떻게 하는거지...#}
+            <img src="media/{{ post.img_path }}"
+                 style="max-width: 540px;"
+                 class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">{{ post.name }}</h5>
+                <p class="card-text">{{ post.description }}</p>
+                <p class="card-text">작성자 : {{ post.author }}님</p>
+                <p><span class="badge bg-primary rounded-pill">{{ post.created_at }}</span></p>
+                <div class="form-floating">
+            <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2"
+                      style="height: 100px"></textarea>
+                    <label for="floatingTextarea2">Comments</label>
                 </div>
-                {% if cm.author == user %}
-                    <div style="float: right">
-                        {# 삭제 url#}
-                        <a href="/comment/delete/{{ cm.id }}">
-                            <span class="badge bg-danger">삭제</span>
-                        </a>
-                    </div>
+                {% if user.is_authenticated %}
+                <div class="detail_btn">
+                    <button type="button" class="btn btn-primary">댓글 남기기</button>
+                    <button type="button" onclick="location.href='/'" class="btn btn-outline-primary">돌아가기</button>
+                    {% if post.author == user %}
+                    <button type="button" onclick="location.href='/post/{{post.id}}/update'" class="btn btn-info">수정</button>
+                    <button type="button" onclick="location.href='/post/{{post.id}}/delete'" class="btn btn-danger">삭제</button>
+                </div>
                 {% endif %}
+            {% endif %}
             </div>
         </div>
+        <div class="detail_comment">
+            <ol class="list-group">
+                <li class="list-group-item active" aria-current="true">댓글</li>
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="col">
+                        <div class="ms-2 me-auto">
+                            <div class="fw-bold">내용이 들어갑니다.</div>
+                        </div>
+                        <span class="badge bg-primary rounded-pill">댓글 작성자</span>
+                        <span class="badge bg-primary rounded-pill">작성 날짜</span>
+{#                        {% if comment.author == user %}#}
+                        <span class="badge bg-info rounded-pill" style="cursor: pointer;" onclick="location.href='수정링크'">수정</span>
+                        <span class="badge bg-danger rounded-pill" style="cursor: pointer;" onclick="location.href='삭제링크'">삭제</span>
+{#                        {% endif %}#}
+                    </div>
+                </li>
+            </ol>
+        </div>
     </div>
-    <hr>
-{% endfor %}
+
+{% endblock %}
