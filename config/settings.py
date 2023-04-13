@@ -42,8 +42,8 @@ INSTALLED_APPS = [
     "posts.apps.PostsConfig",
     "comments.apps.CommentsConfig",
     "django_extensions",
-    # ✅ ↓ For Email Authentication
     "django.contrib.sites",  # 사이트 정보 설정에 필요
+    # ✅ ↓ For Email Authentication
     # "allauth",
     # "allauth.account",  # 사이트에 가입한 계정을 관리하기 위해
     # "allauth.socialaccount",  # 소셜 계정을 관리하기 위해

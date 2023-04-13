@@ -96,7 +96,7 @@ def post_delete(request, id):
 def post_detail(request, post_id):
     form = CommentForm()
     post = PostModel.objects.get(id=post_id)
-    comment = CommentModel.objects.filter(posts_id=post_id).order_by("-updated_at")
+    comment = CommentModel.objects.filter(post_id=post_id).order_by("-updated_at")
     return render(
         request,
         "posts/post_detail.html",
