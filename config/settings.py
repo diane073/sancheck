@@ -44,13 +44,14 @@ INSTALLED_APPS = [
     "users.apps.UsersConfig",
     "posts.apps.PostsConfig",
     "comments.apps.CommentsConfig",
+    "django_extensions",
     # ✅ ↓ For Email Authentication
-    "django.contrib.sites",  # 사이트 정보 설정에 필요
-    "allauth",
-    "allauth.account",  # 사이트에 가입한 계정을 관리하기 위해
-    "allauth.socialaccount",  # 소셜 계정을 관리하기 위해
-    "allauth.socialaccount.providers.naver",
-    "allauth.socialaccount.providers.kakao",
+    # "django.contrib.sites",  # 사이트 정보 설정에 필요
+    # "allauth",
+    # "allauth.account",  # 사이트에 가입한 계정을 관리하기 위해
+    # "allauth.socialaccount",  # 소셜 계정을 관리하기 위해
+    # "allauth.socialaccount.providers.naver",
+    # "allauth.socialaccount.providers.kakao",
 ]
 
 MIDDLEWARE = [
@@ -145,17 +146,23 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "users.CustomUser"
 
+LOGIN_URL = "/user/login"
+LOGIN_REDIRECT_URL = "/"
+ACCOUNT_LOGOUT_REDIRECT_URL = "/"
+# 참고 url: https://wikidocs.net/71259
+
+
 # ✅ ↓ For Email Authentication
-SITE_ID = 1
+# SITE_ID = 1
 
-AUTHENTICATION_BACKENDS = {
-    "django.contrib.auth.backends.ModelBackend",
-    "allauth.account.auth_backends.AuthenticationBackend",
-}
+# AUTHENTICATION_BACKENDS = {
+#     "django.contrib.auth.backends.ModelBackend",
+#     "allauth.account.auth_backends.AuthenticationBackend",
+# }
 
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-ACCOUNT_AUTHENTICATION_METHOD = "email"
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_USERNAME_REQUIRED = False
-ACCOUNT_EMAIL_VERIFICATION = "mandatory"  # none, optional, mandatory
-ACCOUNT_CONFIRM_EMIAL_ON_GET = True
+# EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+# ACCOUNT_AUTHENTICATION_METHOD = "email"
+# ACCOUNT_EMAIL_REQUIRED = True
+# ACCOUNT_USERNAME_REQUIRED = False
+# ACCOUNT_EMAIL_VERIFICATION = "mandatory"  # none, optional, mandatory
+# ACCOUNT_CONFIRM_EMIAL_ON_GET = True
