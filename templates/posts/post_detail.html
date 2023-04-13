@@ -8,12 +8,12 @@
           <img src="/media/{{ post.img_path }}" />
           <p>설명 : {{ post.description }}</p>
           {% if post.author == user %}
-          <a class="nav-link" href="/post/{{post.id}}/update">
-            수정하기 <span class="sr-only"></span
-          ></a>
-          <a class="nav-link" href="/post/{{post.id}}/delete">
-            삭제하기 <span class="sr-only"></span
-          ></a>
+          <a class="nav-link" href="/post/update/{{post.id}}">
+            <span class="sr-only">수정하기</span>
+          </a>
+          <a class="nav-link" href="/post/delete/{{post.id}}">
+            <span class="sr-only">삭제하기</span>
+          </a>
           {% endif %}
         </div>
       </div>
