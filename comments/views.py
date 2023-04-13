@@ -52,7 +52,7 @@ def comment_delete_post(request):
     return redirect("/post/<int:_id>/detail")
 
 
-def my_comment_view(request, page=1):
+def my_comment_view(request, cmt_page=1):
     if request.method == "GET":
         # 내 댓글 불러오기, author정보기반
         author = CommentModel.author
@@ -61,10 +61,10 @@ def my_comment_view(request, page=1):
         comment_title = "내 댓글 목록"
 
         paginator = Paginator(my_comment, 10)
-        page = request.GET.get("page")
-        page_obj = paginator.page(page)
+        cmt_page = request.GET.get("page")
+        cmt_page_obj = paginator.page(cmt_page)
 
         # return HttpResponse ('[%s]' % commnet_title)
         return render_to_response(
-            "/comment/my", {"my_comment": my_comment, "page_obj": page_obj}
+            "/comment/my", {"my_comment": my_comment, "cmt_page_obj": cmt_page_obj}
         )
