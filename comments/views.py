@@ -8,7 +8,7 @@ from django.core.paginator import Paginator
 from posts.views import post_detail
 
 # Create your views here.
-# /post/<int:_id>/detail < 글 상세보기 경로
+# /post/<int:post_id>/detail < 글 상세보기 경로
 
 
 @login_required
@@ -22,7 +22,9 @@ def comment_view(request):
             message = "아직 댓글이 없습니다."
             return {"error_message": message}
         elif all_comments:
-            return render(request, "/post/<int:_id>/detail", {"comments": all_comments})
+            return render(
+                request, "post/<int:post_id>/detail", {"comments": all_comments}
+            )
     else:
         raise NotImplementedError()
 
@@ -36,12 +38,14 @@ def comment_post(request):
             # 댓글 내용이 없을 경우
             # 가능하다면 html에 {{error_message}} 띄워주기
             message = "댓글 내용을 적어주세요"
-            return render(request, "/comment/note", {"error_message": message})
+            return render(
+                request, "comments/comment_create.html", {"error_message": message}
+            )
             # commnet/note.html 넣어주기
 
         elif write_comments.is_valid():
             write_comments.save()
-            return redirect("/post/<int:_id>/detail")
+            return redirect("/post/<int:post_id>/detail")
     else:
         return HttpResponse("댓글 포스트에 실패하였습니다")
 
@@ -49,7 +53,7 @@ def comment_post(request):
 def comment_delete_post(request):
     comment = CommentModel.objects.get(id=id)
     comment.delete
-    return redirect("/post/<int:_id>/detail")
+    return redirect("/post/<int:post_id>/detail")
 
 
 def my_comment_view(request, cmt_page=1):
@@ -66,5 +70,6 @@ def my_comment_view(request, cmt_page=1):
 
         # return HttpResponse ('[%s]' % commnet_title)
         return render_to_response(
-            "/comment/my", {"my_comment": my_comment, "cmt_page_obj": cmt_page_obj}
+            "comments/comment_mycmt.html",
+            {"my_comment": my_comment, "cmt_page_obj": cmt_page_obj},
         )
