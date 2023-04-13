@@ -35,11 +35,12 @@ def home(request):
     posts = PostModel.objects.all().order_by("-created_at")
     page = request.GET.get("page")
     page_obj, custom_range = pagination(page, posts)
+    category_list = set([(post.category, post.get_category_display()) for post in posts])
 
     return render(
         request,
         "home.html",
-        {"posts": posts, "page_obj": page_obj, "custom_range": custom_range},
+        {"posts": posts, "page_obj": page_obj, "custom_range": custom_range, 'category': category_list},
     )
 
 
@@ -52,6 +53,8 @@ def category_view(request, category):
         "posts/category_page.html",
         {"posts": posts, "page_obj": page_obj, "custom_range": custom_range},
     )
+
+
 
 
 @login_required

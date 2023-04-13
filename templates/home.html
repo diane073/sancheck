@@ -31,12 +31,11 @@
 
 
 <main>
-<a class="nav-link" href= "post/search" >
-  <span class="sr-only">구인</span>
-</a>
-<a class="nav-link" href="post/offer">
-  <span class="sr-only">구직</span>
-
+{% for key, value in category %}
+    <a class="nav-link" href= "post/{{ key }}" >
+      <span class="sr-only">{{ value }}</span>
+    </a>
+{% endfor %}
   {% for post in page_obj %}
   <section>
     <div class="profile profile-long">
