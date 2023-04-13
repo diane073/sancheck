@@ -7,6 +7,8 @@ from comments.models import CommentModel
 from comments.forms import CommentForm
 from .forms import PostForm
 
+# Create your views here.
+
 
 def home(request):
     posts = PostModel.objects.all().order_by("-created_at")
@@ -40,8 +42,8 @@ def home(request):
 
 @login_required
 def my_post_view(request):
-    posts = PostModel.objects.filter(author=request.user).order_by('-updated_at')
-    return render(request, 'posts/my_post_page.html', {'posts': posts})
+    posts = PostModel.objects.filter(author=request.user).order_by("-updated_at")
+    return render(request, "posts/my_post_page.html", {"posts": posts})
 
 
 @login_required
@@ -53,7 +55,6 @@ def post_view(request):
     elif request.method == "POST":
         post_upload = PostForm(request.POST, request.FILES)
         if post_upload.is_valid():
-
             new_post = PostModel()
             new_post.author = request.user
             new_post.name = post_upload.cleaned_data["name"]
@@ -67,24 +68,23 @@ def post_view(request):
 
 
 @login_required
-def post_update(request, id):
-    post = get_object_or_404(PostModel, id=id)
+def post_update(request, post_id):
+    post = get_object_or_404(PostModel, id=post_id)
     if request.method == "POST":
-        form = PostForm(request.POST, request.FILES, instance=post)  # ✅
+        form = PostForm(request.POST, request.FILES, instance=post)
         if form.is_valid():
-            PostModel.objects.filter(id=id).update(
+            PostModel.objects.filter(id=post_id).update(
                 name=form.cleaned_data["name"],
                 description=form.cleaned_data["description"],
                 img_path=request.FILES.get("img_path", post.img_path),
                 updated_at=datetime.datetime.now(),
             )
-            
-            return redirect('/post/' + str(post_id) + '/detail')
-            
+
+            return redirect("/post/" + str(post_id) + "/detail")
 
     else:
-        form = PostForm(instance=post)  # ✅
-    return render(request, "posts/post_create.html", {"form": form, "id": id})
+        form = PostForm(instance=post)
+    return render(request, "posts/post_create.html", {"form": form, "id": post_id})
 
 
 def post_delete(request, id):
@@ -93,11 +93,12 @@ def post_delete(request, id):
     return redirect("/")
 
 
-
 def post_detail(request, post_id):
     form = CommentForm()
     post = PostModel.objects.get(id=post_id)
-    comment = CommentModel.objects.filter(posts_id=post_id).order_by('-updated_at')
-    return render(request, 'posts/post_detail.html', {'form': form, 'post': post, 'comment': comment})
-
-
+    comment = CommentModel.objects.filter(posts_id=post_id).order_by("-updated_at")
+    return render(
+        request,
+        "posts/post_detail.html",
+        {"form": form, "post": post, "comment": comment},
+    )
