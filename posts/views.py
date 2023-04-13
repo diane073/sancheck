@@ -3,6 +3,8 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from .models import PostModel
+from comments.models import CommentModel
+from comments.forms import CommentForm
 from .forms import PostForm
 
 
@@ -37,6 +39,12 @@ def home(request):
 
 
 @login_required
+def my_post_view(request):
+    posts = PostModel.objects.filter(author=request.user).order_by('-updated_at')
+    return render(request, 'posts/my_post_page.html', {'posts': posts})
+
+
+@login_required
 def post_view(request):
     if request.method == "GET":
         form = PostForm()
@@ -45,12 +53,14 @@ def post_view(request):
     elif request.method == "POST":
         post_upload = PostForm(request.POST, request.FILES)
         if post_upload.is_valid():
+
             new_post = PostModel()
             new_post.author = request.user
             new_post.name = post_upload.cleaned_data["name"]
             new_post.description = post_upload.cleaned_data["description"]
             new_post.img_path = post_upload.cleaned_data["img_path"]
             new_post.save()
+
             return redirect("/")
 
     return redirect("/user/login")
@@ -68,7 +78,10 @@ def post_update(request, id):
                 img_path=request.FILES.get("img_path", post.img_path),
                 updated_at=datetime.datetime.now(),
             )
-            return redirect("/post/" + str(id))
+            
+            return redirect('/post/' + str(post_id) + '/detail')
+            
+
     else:
         form = PostForm(instance=post)  # ✅
     return render(request, "posts/post_create.html", {"form": form, "id": id})
@@ -80,6 +93,11 @@ def post_delete(request, id):
     return redirect("/")
 
 
-def post_detail(request, id):
-    post = PostModel.objects.get(id=id)
-    return render(request, "posts/post_detail.html", {"post": post})
+
+def post_detail(request, post_id):
+    form = CommentForm()
+    post = PostModel.objects.get(id=post_id)
+    comment = CommentModel.objects.filter(posts_id=post_id).order_by('-updated_at')
+    return render(request, 'posts/post_detail.html', {'form': form, 'post': post, 'comment': comment})
+
+
