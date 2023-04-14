@@ -40,6 +40,8 @@ def home(request):
     category_list = set(
         [(post.category, post.get_category_display()) for post in posts]
     )
+    #category_list = PostModel.CATEGORY_CHOICES
+    #카테고리에 글이 없더라도 카테고리가 출력되게 하려면 해당 방식으로 수정이 좋을 것 같음.
 
     return render(
         request,
@@ -90,6 +92,8 @@ def post_view(request):
             new_post.author = request.user
             new_post.category = post_upload.cleaned_data["category"]
             new_post.title = post_upload.cleaned_data["title"]
+            new_post.time = post_upload.cleaned_data["time"]
+            new_post.pets = post_upload.cleaned_data["pets"]
             new_post.description = post_upload.cleaned_data["description"]
             new_post.img_path = post_upload.cleaned_data["img_path"]
             new_post.save()
@@ -109,6 +113,8 @@ def post_update(request, post_id):
                 title=form.cleaned_data["title"],
                 description=form.cleaned_data["description"],
                 category=form.cleaned_data["category"],
+                time=form.cleaned_data["time"],
+                pets=form.cleaned_data["pets"],
                 img_path=request.FILES.get("img_path", post.img_path),
                 updated_at=datetime.datetime.now(),
             )
@@ -131,8 +137,9 @@ def post_detail(request, post_id):
     form = CommentForm()
     post = PostModel.objects.get(id=post_id)
     comment = CommentModel.objects.filter(post_id=post_id).order_by("-updated_at")
+
     return render(
         request,
         "posts/post_detail.html",
-        {"form": form, "post": post, "comment": comment},
+        {"form": form, "post": post},
     )

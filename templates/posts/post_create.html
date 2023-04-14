@@ -5,6 +5,7 @@
 {% block title %} 글쓰기 {% endblock %}
 {% comment %} Content {% endcomment %}
 {% block content %}
+
 <div class="post">
     <h1>게시물 추가</h1>
     {% if id %}
@@ -13,21 +14,23 @@
         <form class="form-area" method="post" enctype="multipart/form-data" action="/post/note" >
     {% endif %}
         {% csrf_token %}
-        <div class="input-group mb-3 post__input">
+        <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1">카테고리</span>
             {{ form.category }}
         </div>
-        <div class="input-group mb-3 post__input">
+        <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1">제목</span>
             {{ form.title }}
         </div>
         <div class="input-group mb-3 post__input">
             <label class="input-group-text" for="inputGroupFile01"
-            >이미지 업로드</label
-            >
+            >이미지 업로드</label>
+             <div class="form-control">{{ form.img_path.value }}</div>
             {{ form.img_path }}
+
         </div>
-        <div class="input-group mb-3 post__input">
+
+        <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1">반려동물 종류</span>
             {{ form.pets }}
         </div>
