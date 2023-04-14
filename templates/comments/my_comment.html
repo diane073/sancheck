@@ -11,7 +11,7 @@
                 <ul>
                     {% for comment in latest_comment_list %}
                     <li>
-                        {{ the_post.name }} | {{ comment.content }} | {{ comment.created_at }}
+                        {{ comment.post.name }} | {{ comment.content }} | {{ comment.created_at }}
                     </li>
                     {% endfor %}
                 </ul>
