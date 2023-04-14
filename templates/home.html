@@ -25,12 +25,11 @@
   {% endif %}
 </div>
 
-{% if user %}
+{% if user.is_authenticated %}
 <div class="profile__cta">
   <a class="button" href="/post/my">내가 쓴 글 보기!</a>
 </div>
 {% endif %}
-
 
 <main>
 {% for key, value in category %}
