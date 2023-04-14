@@ -8,5 +8,5 @@ urlpatterns = [
         views.comment_delete,
         name="delete_comment",
     ),
-    path("comment/my", views.my_comment_view, name="my_comments"),
+    path("comment/my", views.get_my_comments.as_view(), name="my_comments"),
 ]
