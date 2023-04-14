@@ -7,6 +7,8 @@ from comments.models import CommentModel
 from comments.forms import CommentForm
 from .forms import PostForm
 
+# Create your views here.
+
 
 def pagination(page, posts):
     max_post = 2  # 페이지 1개당 생성될 포스트 개수
@@ -59,8 +61,8 @@ def category_view(request, category):
 
 @login_required
 def my_post_view(request):
-    posts = PostModel.objects.filter(author=request.user).order_by('-updated_at')
-    return render(request, 'posts/my_post_page.html', {'posts': posts})
+    posts = PostModel.objects.filter(author=request.user).order_by("-updated_at")
+    return render(request, "posts/my_post_page.html", {"posts": posts})
 
 @login_required
 def my_comment_view(request):
@@ -77,7 +79,6 @@ def post_view(request):
     elif request.method == "POST":
         post_upload = PostForm(request.POST, request.FILES)
         if post_upload.is_valid():
-
             new_post = PostModel()
             new_post.author = request.user
             new_post.category = post_upload.cleaned_data['category']
@@ -110,6 +111,7 @@ def post_update(request, post_id):
 
     else:
         form = PostForm(instance=post)  # ✅
+
     return render(request, "posts/post_create.html", {"form": form, "id": post_id})
 
 
@@ -122,8 +124,10 @@ def post_delete(request, post_id):
 def post_detail(request, post_id):
     form = CommentForm()
     post = PostModel.objects.get(id=post_id)
-    comment = CommentModel.objects.filter(posts_id=post_id).order_by('-updated_at')
-    return render(request, 'posts/post_detail.html', {'form': form, 'post': post, 'comment': comment})
-
-
+    comment = CommentModel.objects.filter(post_id=post_id).order_by("-updated_at")
+    return render(
+        request,
+        "posts/post_detail.html",
+        {"form": form, "post": post, "comment": comment},
+    )
 
