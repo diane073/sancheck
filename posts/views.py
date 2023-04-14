@@ -10,9 +10,7 @@ from .forms import PostForm
 # Create your views here.
 
 
-def home(request):
-    posts = PostModel.objects.all().order_by("-created_at")
-    page = request.GET.get("page")
+def pagination(page, posts):
     max_post = 2  # 페이지 1개당 생성될 포스트 개수
     paginator = Paginator(posts, max_post)
 
@@ -32,10 +30,38 @@ def home(request):
     if right_index > paginator.num_pages:  # 페이지 끝이 넘어가려하면 최대 인덱스 조정
         right_index = paginator.num_pages
     custom_range = range(left_index, right_index + 1)
+    return page_obj, custom_range
+
+
+def home(request):
+    posts = PostModel.objects.all().order_by("-created_at")
+    page = request.GET.get("page")
+    page_obj, custom_range = pagination(page, posts)
+    category_list = set(
+        [(post.category, post.get_category_display()) for post in posts]
+    )
+    #category_list = PostModel.CATEGORY_CHOICES
+    #카테고리에 글이 없더라도 카테고리가 출력되게 하려면 해당 방식으로 수정이 좋을 것 같음.
 
     return render(
         request,
         "home.html",
+        {
+            "posts": posts,
+            "page_obj": page_obj,
+            "custom_range": custom_range,
+            "category": category_list,
+        },
+    )
+
+
+def category_view(request, category):
+    posts = PostModel.objects.filter(category=category).order_by("-updated_at")
+    page = request.GET.get("page")
+    page_obj, custom_range = pagination(page, posts)
+    return render(
+        request,
+        "posts/category_page.html",
         {"posts": posts, "page_obj": page_obj, "custom_range": custom_range},
     )
 
@@ -47,21 +73,30 @@ def my_post_view(request):
 
 
 @login_required
+def my_comment_view(request):
+    comments = CommentModel.objects.filter(author=request.user).order_by("-updated_at")
+    return render(request, "posts/my_comment_page.html", {"comments": comments})
+
+
+@login_required
 def post_view(request):
     if request.method == "GET":
         form = PostForm()
         return render(request, "posts/post_create.html", {"form": form})
 
     elif request.method == "POST":
+        print(request.POST)
         post_upload = PostForm(request.POST, request.FILES)
         if post_upload.is_valid():
             new_post = PostModel()
             new_post.author = request.user
-            new_post.name = post_upload.cleaned_data["name"]
+            new_post.category = post_upload.cleaned_data["category"]
+            new_post.title = post_upload.cleaned_data["title"]
+            new_post.time = post_upload.cleaned_data["time"]
+            new_post.pets = post_upload.cleaned_data["pets"]
             new_post.description = post_upload.cleaned_data["description"]
             new_post.img_path = post_upload.cleaned_data["img_path"]
             new_post.save()
-
             return redirect("/")
 
     return redirect("/user/login")
@@ -71,11 +106,15 @@ def post_view(request):
 def post_update(request, post_id):
     post = get_object_or_404(PostModel, id=post_id)
     if request.method == "POST":
-        form = PostForm(request.POST, request.FILES, instance=post)
+        form = PostForm(request.POST, request.FILES, instance=post)  # ✅
+
         if form.is_valid():
             PostModel.objects.filter(id=post_id).update(
-                name=form.cleaned_data["name"],
+                title=form.cleaned_data["title"],
                 description=form.cleaned_data["description"],
+                category=form.cleaned_data["category"],
+                time=form.cleaned_data["time"],
+                pets=form.cleaned_data["pets"],
                 img_path=request.FILES.get("img_path", post.img_path),
                 updated_at=datetime.datetime.now(),
             )
@@ -83,12 +122,13 @@ def post_update(request, post_id):
             return redirect("/post/" + str(post_id) + "/detail")
 
     else:
-        form = PostForm(instance=post)
+        form = PostForm(instance=post)  # ✅
+
     return render(request, "posts/post_create.html", {"form": form, "id": post_id})
 
 
-def post_delete(request, id):
-    post = PostModel.objects.get(id=id)
+def post_delete(request, post_id):
+    post = PostModel.objects.get(id=post_id)
     post.delete()
     return redirect("/")
 
@@ -97,8 +137,9 @@ def post_detail(request, post_id):
     form = CommentForm()
     post = PostModel.objects.get(id=post_id)
     comment = CommentModel.objects.filter(post_id=post_id).order_by("-updated_at")
+
     return render(
         request,
         "posts/post_detail.html",
-        {"form": form, "post": post, "comment": comment},
+        {"form": form, "post": post},
     )

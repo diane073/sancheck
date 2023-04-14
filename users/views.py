@@ -28,12 +28,13 @@ def signup(request):
             user.save()
             return redirect("/user/login")
         else:
-            error = "양식을 모추 채워주세요."
+            error = "입력값이 잘못됐습니다."
             context = {"error": error, "form": form}
             return render(request, "users/signup.html", context)
 
     form = SignupForm()
-    return render(request, "users/signup.html", {"form": form})
+    context = {"form": form}
+    return render(request, "users/signup.html", context)
 
 
 def login(request):
@@ -60,3 +61,8 @@ def login(request):
 def logout(request):
     auth.logout(request)
     return redirect("/")
+
+
+@login_required
+def profile(request):
+    return render(request, "users/profile.html")

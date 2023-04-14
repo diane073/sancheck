@@ -2,9 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import EmailValidator
 
-
 email_validator = EmailValidator()
-
 
 class CustomUser(AbstractUser):
 

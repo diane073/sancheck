@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+{% comment %} static {% endcomment %}
+{% load static %}
+{% comment %} Title {% endcomment %}
+{% block title %} 프로필 {% endblock %}
+{% comment %} Content {% endcomment %}
+{% block content %}
+<div class="profile_card">
+  <div class="card">
+    <div class="row g-0">
+      <div class="col-md-4">
+        <img class="profile-img"
+          src="https://placehold.co/1280x2560"
+          class="img-fluid rounded-start"
+          alt="테스트 이미지"
+          loading="lazy"
+        />
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title">프로필</h5>
+          <div class="input-group mb-3">
+            <span class="input-group-text" id="inputGroup-sizing-default"
+              >닉네임</span
+            >
+            <input
+              type="text"
+              placeholder="{{ user }}"
+              class="form-control"
+              aria-label="Sizing example input"
+              aria-describedby="inputGroup-sizing-default"
+            />
+          </div>
+          <div class="input-group mb-3">
+            <span class="input-group-text" id="inputGroup-sizing-default"
+              >이메일</span
+            >
+            <input
+              type="text"
+              placeholder="{{ user.username }}"
+              class="form-control"
+              aria-label="Sizing example input"
+              aria-describedby="inputGroup-sizing-default"
+            />
+          </div>
+          <div class="input-group mb-3">
+            <span class="input-group-text" id="inputGroup-sizing-default"
+              >주소</span
+            >
+            <input
+              type="text"
+              placeholder="{{ user.address }}"
+              class="form-control"
+              aria-label="Sizing example input"
+              aria-describedby="inputGroup-sizing-default"
+            />
+          </div>
+          <div class="input-group mb-3">
+            <span class="input-group-text" id="inputGroup-sizing-default"
+              >반려동물 주인?</span
+            >
+            <input
+              type="text"
+              placeholder="{{ user.is_pet_host }}"
+              class="form-control"
+              aria-label="Sizing example input"
+              aria-describedby="inputGroup-sizing-default"
+            />
+          </div>
+          <div class="input-group mb-3">
+            <span class="input-group-text" id="inputGroup-sizing-default"
+              >반려동물 종류</span
+            >
+            <input
+              type="text"
+              placeholder="{{ user.pet_kind }}"
+              class="form-control"
+              aria-label="Sizing example input"
+              aria-describedby="inputGroup-sizing-default"
+            />
+          </div>
+          <div class="input-group mb-3">
+            <input type="file" class="form-control" id="inputGroupFile02" />
+            <label class="input-group-text" for="inputGroupFile02"
+              >이미지 변경</label
+            >
+          </div>
+          <div class="profile_button">
+            <button type="submit" class="btn btn-info">변경</button>
+            <button
+              onclick="location.href='/'"
+              type="button"
+              class="btn btn-secondary"
+            >
+              취소
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Block -->
+<div class="mycontent">
+    <a href={% url "my_post_view" %} type="button" class="btn btn-info">
+        <span>내가 쓴 글</span>
+    </a>
+    <a href={% url "my_comments" %} type="button" class="btn btn-info">
+        <span>내가 쓴 댓글</span>
+    </a>
+    {% comment %}
+    <button
+        type="button"
+        onclick="location.href='{% url 'my_post_view' %}'"
+        class="btn btn-info">
+    내가 쓴 글
+    </button>
+    <button
+        type="button"
+        onclick="location.href='{% url 'my_comment_view' %}'"
+        class="btn btn-outline-info">
+    내가 쓴 댓글
+    </button>
+    {% endcomment %}
+</div>
+{% endblock %}
