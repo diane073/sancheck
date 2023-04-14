@@ -16,6 +16,8 @@ class PostModel(models.Model):
     description = models.TextField(max_length=256)
     img_path = models.ImageField(upload_to="")
     category = models.CharField(choices=CATEGORY_CHOICES, max_length=50)
+    pets = models.CharField(max_length=50)
+    time = models.CharField(max_length=50)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

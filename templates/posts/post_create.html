@@ -3,54 +3,42 @@
 {% block title %} 글 쓰기 {% endblock %}
 <!-- Block -->
 {% block content %}
+
 <div class="post">
     <h1>게시물 추가</h1>
-    <form method="POST" action={% url "post_view" %}>
+    {% if id %}
+        <form class="form-area" method="post" enctype="multipart/form-data" action="/post/{{ id }}/update" >
+    {% else %}
+        <form class="form-area" method="post" enctype="multipart/form-data" action="/post/note" >
+    {% endif %}
         {% csrf_token %}
         <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">카테고리</span>
+            {{ form.category }}
+        </div>
+        <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1">제목</span>
-            <input
-            type="text"
-            class="form-control"
-            placeholder=""
-            aria-label="Username"
-            aria-describedby="basic-addon1"
-            />
+            {{ form.title }}
         </div>
         <div class="input-group mb-3">
             <label class="input-group-text" for="inputGroupFile01"
-            >이미지 업로드</label
-            >
-            <input type="file" class="form-control" id="inputGroupFile01" />
+            >이미지 업로드</label>
+             <div class="form-control">{{ form.img_path.value }}</div>
+            {{ form.img_path }}
+
         </div>
+
         <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1">반려동물 종류</span>
-            <input
-            type="text"
-            class="form-control"
-            placeholder=""
-            aria-label="Username"
-            aria-describedby="basic-addon1"
-            />
+            {{ form.pets }}
         </div>
         <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1">시간대</span>
-            <input
-            type="text"
-            class="form-control"
-            placeholder=""
-            aria-label="Username"
-            aria-describedby="basic-addon1"
-            />
+            {{ form.time }}
         </div>
         <div class="form-floating">
-            <textarea
-            class="form-control"
-            placeholder="Leave a comment here"
-            id="floatingTextarea2"
-            style="height: 300px"
-            ></textarea>
             <label for="floatingTextarea2">Comments</label>
+            {{ form.description }}
         </div>
         <div class="post_btn">
             <button type="submit" class="btn btn-primary">게시하기</button>
