@@ -83,22 +83,15 @@ def post_view(request):
         return render(request, "posts/post_create.html", {"form": form})
 
     elif request.method == "POST":
-        form = PostForm(request.POST, request.FILES)
-        print(request.POST)
-        print(request.FILES)
-        if form.is_valid():
-            new_post = form.save()
+        post_upload = PostForm(request.POST, request.FILES)
+        if post_upload.is_valid():
+            new_post = PostModel()
+            new_post.author = request.user
+            new_post.category = post_upload.cleaned_data["category"]
+            new_post.title = post_upload.cleaned_data["title"]
+            new_post.description = post_upload.cleaned_data["description"]
+            new_post.img_path = post_upload.cleaned_data["img_path"]
             new_post.save()
-            print("Here!")
-            # post_upload = PostForm(request.POST, request.FILES)
-            # if post_upload.is_valid():
-            #     new_post = PostModel()
-            #     new_post.author = request.user
-            #     new_post.category = post_upload.cleaned_data["category"]
-            #     new_post.title = post_upload.cleaned_data["title"]
-            #     new_post.description = post_upload.cleaned_data["description"]
-            #     new_post.img_path = post_upload.cleaned_data["img_path"]
-            #     new_post.save()
             return redirect("/")
 
     return redirect("/user/login")
