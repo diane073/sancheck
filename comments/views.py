@@ -7,6 +7,8 @@ from django.http import HttpResponse
 from django.core.paginator import Paginator
 from posts.models import PostModel
 
+from django.views import generic
+
 # Create your views here.
 # /post/<int:post_id>/detail < 글 상세보기 경로
 
@@ -67,23 +69,35 @@ def comment_delete(request, post_id, comment_id):
         return redirect(f"/post/{post_id}/detail")
 
 
-def my_comment_view(request):
-    if request.method == "GET":
-        # 내 댓글 불러오기, author정보기반
+class MyCommentList(generic.ListView):
+    model = CommentModel
+    template_name = "comments/my_comment.html"
+    context_object_name = "latest_comment_list"
+    paginate_by = 10
 
-        my_comment = CommentModel.objects.filter(author=request.user).order_by(
-            "-created_at"
-        )
+    def get_queryset(self):
+        # 최근 댓글 불러오기
+        my_comment = CommentModel.objects.all().order_by("-created_at")
+        return my_comment
 
-        comment_title = "내 댓글 목록"
 
-        paginator = Paginator(my_comment, 10)
-        page = request.GET.get("page")
-        print(page)
-        page_obj = paginator.page(page)
-        # return HttpResponse ('[%s]' % commnet_title)
-        return render(
-            None,
-            "comments/my_comment.html",
-            {"my_comment": my_comment, "page_obj": page_obj},
-        )
+get_my_comments = MyCommentList
+
+
+# def my_comment_view(request, page=1):
+#     if request.method == "GET":
+#         # 내 댓글 불러오기, author정보기반
+
+#         my_comment = CommentModel.objects.filter(author=request.user).order_by(
+#             "-created_at"
+#         )
+
+#         paginator = Paginator(my_comment, 10)
+#         page = 1
+#         page_obj = paginator.page(page)
+#         # return HttpResponse ('[%s]' % commnet_title)
+#         return render(
+#             None,
+#             "comments/my_comment.html",
+#             {"my_comment": my_comment, "page_obj": page_obj},
+#         )
