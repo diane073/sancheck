@@ -1,41 +1,68 @@
-{% extends 'base.html' %}
-
-{% block title %}
-    글 쓰기
-{% endblock %}
-
+{% extends 'base.html' %} 
+<!-- Block -->
+{% block title %} 글 쓰기 {% endblock %}
+<!-- Block -->
 {% block content %}
-    <div class="post">
+<div class="post">
     <h1>게시물 추가</h1>
+    <form method="POST" action={% url "post_view" %}>
+        {% csrf_token %}
         <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1">제목</span>
-            <input type="text" class="form-control" placeholder="" aria-label="Username"
-                   aria-describedby="basic-addon1">
+            <input
+            type="text"
+            class="form-control"
+            placeholder=""
+            aria-label="Username"
+            aria-describedby="basic-addon1"
+            />
         </div>
         <div class="input-group mb-3">
-            <label class="input-group-text" for="inputGroupFile01">이미지 업로드</label>
-            <input type="file" class="form-control" id="inputGroupFile01">
+            <label class="input-group-text" for="inputGroupFile01"
+            >이미지 업로드</label
+            >
+            <input type="file" class="form-control" id="inputGroupFile01" />
         </div>
         <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1">반려동물 종류</span>
-            <input type="text" class="form-control" placeholder="" aria-label="Username"
-                   aria-describedby="basic-addon1">
+            <input
+            type="text"
+            class="form-control"
+            placeholder=""
+            aria-label="Username"
+            aria-describedby="basic-addon1"
+            />
         </div>
         <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1">시간대</span>
-            <input type="text" class="form-control" placeholder="" aria-label="Username"
-                   aria-describedby="basic-addon1">
+            <input
+            type="text"
+            class="form-control"
+            placeholder=""
+            aria-label="Username"
+            aria-describedby="basic-addon1"
+            />
         </div>
         <div class="form-floating">
-            <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2"
-                      style="height: 300px"></textarea>
+            <textarea
+            class="form-control"
+            placeholder="Leave a comment here"
+            id="floatingTextarea2"
+            style="height: 300px"
+            ></textarea>
             <label for="floatingTextarea2">Comments</label>
         </div>
         <div class="post_btn">
             <button type="submit" class="btn btn-primary">게시하기</button>
-            <button type="button" onclick="location.href='/'" class="btn btn-outline-primary">취소</button>
+            <button
+            type="button"
+            onclick="location.href='/'"
+            class="btn btn-outline-primary"
+            >
+            취소
+            </button>
         </div>
-    </div>
-
-
+    </form>
+</div>
+<!-- Block -->
 {% endblock %}

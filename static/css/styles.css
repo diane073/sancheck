@@ -1,0 +1,66 @@
+header {
+  user-select: none;
+  background-color: white;
+}
+.wrap {
+  width: 400px;
+  margin: 0 auto;
+}
+.my_cards {
+  max-width: 1200px;
+  width: 95%;
+  margin: 20px auto 0 auto;
+}
+.profile_card {
+  width: 1200px;
+  margin: auto;
+}
+.profile_button {
+  width: 130px;
+  margin-left: auto;
+}
+.mycontent > button {
+  padding: 10px 40px 10px 40px;
+  margin-left: 50px;
+}
+.mycontent {
+  width: 500px;
+  margin: 10px auto 10px auto;
+}
+.mysignup {
+  width: 400px;
+  margin: 0 auto;
+}
+.mypost {
+  width: 1000px;
+  margin: auto;
+}
+.post {
+  width: 800px;
+  margin: auto;
+}
+.post_btn {
+  width: 180px;
+  margin: 10px 0 10px auto;
+}
+.detail_card {
+  width: 540px;
+  margin: auto;
+}
+.detail_btn {
+  margin-top: 10px;
+}
+.btn {
+  margin-bottom: 10px;
+}
+.user_detail_btn {
+  margin-left: auto;
+}
+
+/* users/profile.html */
+.profile-img {
+  width: 400px;
+  height: 450px;
+  object-fit: cover;
+  object-position: center;
+}
