@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    프로필
+{% endblock %}
+
+{% block content %}
+    <div class="profile_card">
+        <div class="card">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    {#저는 왜 로컬 이미지를 가져오면 깨질까요?#}
+                    <img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FEcjcO%2Fbtr9naGKtTs%2FyfPueeNKwFQoe0Wzp6sCm0%2Fimg.png"
+                         class="img-fluid rounded-start" alt="테스트 이미지">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">프로필</h5>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="inputGroup-sizing-default">닉네임</span>
+                            <input type="text" placeholder="{{ user }}" class="form-control"
+                                   aria-label="Sizing example input"
+                                   aria-describedby="inputGroup-sizing-default">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="inputGroup-sizing-default">이메일</span>
+                            <input type="text" placeholder="{{ user.username }}" class="form-control"
+                                   aria-label="Sizing example input"
+                                   aria-describedby="inputGroup-sizing-default">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="inputGroup-sizing-default">주소</span>
+                            <input type="text" placeholder="{{ user.address }}" class="form-control" aria-label="Sizing example input"
+                                   aria-describedby="inputGroup-sizing-default">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="inputGroup-sizing-default">반려동물 주인?</span>
+                            <input type="text" placeholder="{{ user.is_pet_host }}" class="form-control"
+                                   aria-label="Sizing example input"
+                                   aria-describedby="inputGroup-sizing-default">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="inputGroup-sizing-default">반려동물 종류</span>
+                            <input type="text" placeholder="{{ user.pet_kind }}" class="form-control"
+                                   aria-label="Sizing example input"
+                                   aria-describedby="inputGroup-sizing-default">
+                        </div>
+                        <div class="input-group mb-3">
+                            <input type="file" class="form-control" id="inputGroupFile02">
+                            <label class="input-group-text" for="inputGroupFile02">이미지 변경</label>
+                        </div>
+                        <div class="profile_button">
+                            <button type="submit" class="btn btn-info">변경</button>
+                            <button onclick="location.href='/'" type="button" class="btn btn-secondary">취소</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<div class="mycontent">
+<button type="button" onclick="location.href='{% url 'my_post_view' %}'" class="btn btn-info">내가 쓴 글</button>
+<button type="button" onclick="location.href='{% url 'my_comment_view' %}'" class="btn btn-outline-info">내가 쓴 댓글</button>
+</div>
+
+{% endblock %}

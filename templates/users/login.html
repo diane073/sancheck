@@ -1,8 +1,10 @@
+
 {% extends "base.html" %}
 <!-- Blank -->
 {% block title%} 로그인 {% endblock %}
 <!-- Blank -->
 {% block content %}
+
 <div class="container">
   <div class="wrap" style="width: 400px; margin: 0 auto">
     <h2 class="title-center" style="text-align: center; margin-top: 50px">
@@ -16,12 +18,7 @@
       </div>
       <div class="form-group mt-2 mb-2">
         <label for="password">비밀번호</label>
-        <input
-          type="password"
-          class="form-control"
-          id="password"
-          name="password"
-        />
+        <input type="password" class="form-control" id="password" name="password" />
       </div>
       {% if error %}
       <div class="alert alert-danger" role="alert">{{ error }}</div>
@@ -34,5 +31,4 @@
     </form>
   </div>
 </div>
-
 {% endblock %}
