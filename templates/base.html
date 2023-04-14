@@ -6,74 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" type="text/css" href="{% static 'bootstrap.min.css' %}">
-    <title>PETPALS</title>
-    <style>
-        .wrap {
-            width: 400px;
-            margin: 0 auto;
-        }
-
-        .my_cards {
-            max-width: 1200px;
-            width: 95%;
-            margin: 20px auto 0 auto;
-        }
-        .profile_card{
-            width: 1200px;
-            margin: auto;
-        }
-        .profile_button{
-            width: 130px;
-            margin-left: auto;
-        }
-        .mycontent > button{
-            padding: 10px 40px 10px 40px;
-            margin-left: 50px;
-        }
-        .mycontent {
-            width: 500px;
-            margin: 10px auto 10px auto;
-        }
-        .mysignup {
-            width: 400px;
-            margin: 0 auto;
-        }
-        .mypost{
-            width: 1000px;
-            margin: auto;
-        }
-        .post{
-            width: 800px;
-            margin: auto;
-        }
-        .post_btn{
-            width: 180px;
-            margin: 10px 0 10px auto;
-        }
-        .detail_card{
-            width: 540px;
-            margin: auto
-        }
-        .detail_btn{
-            margin-top: 10px;
-        }
-        .btn{
-            margin-bottom: 10px;
-        }
-        .user_detail_btn{
-            margin-left: auto;
-
-        }
-    </style>
-
+    <!-- Custom CSS -->
+    <link rel="stylesheet" type="text/css" href="{% static "css/styles.css"%}">
+    <title>{% block title%}{%endblock%} | PETPALS</title>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg bg-white">
+<header class="navbar navbar-expand-lg">
     <div class="container-fluid">
         {#홈으로!#} {#이미지 폴더에서 가져오고 싶었는데 다른 html에서 깨져요! 같이 해결 해요!#}
-        <a class="navbar-brand" href="/"><img alt="브랜드 이미지"
-                                              src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FcR93Qt%2Fbtr9dXnXdXH%2FiGkso4kfeKcovcdSxJrI5k%2Fimg.png"
-                                              width="300px"></a>
+        <a class="navbar-brand" href="/">
+            <img alt="브랜드 이미지"
+            src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FcR93Qt%2Fbtr9dXnXdXH%2FiGkso4kfeKcovcdSxJrI5k%2Fimg.png"
+            width="300px">
+        </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -81,11 +26,11 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 {% if user.is_authenticated %}
-                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" >현재 로그인 : {{ user }}</a>
+                    <li class="nav-item">
+                        <span class="nav-link" aria-current="page" >현재 로그인 : {{ user.nickname }}</span>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href={% url "post_view" %}>글 쓰기</a>
+                        <a class="nav-link" aria-current="page" href={% url "post_view" %}>글쓰기</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url "profile" %}">마이페이지</a>
@@ -104,12 +49,11 @@
             </ul>
         </div>
     </div>
-</nav>
-<hr>
+</header>
 
-<!-- 기본 템플릿 안에 삽입될 내용 Start -->
+<hr/>
+
 {% block content %}
 {% endblock %}
-<!-- 기본 템플릿 안에 삽입될 내용 End -->
 </body>
 </html>

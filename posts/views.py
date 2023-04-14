@@ -37,17 +37,24 @@ def home(request):
     posts = PostModel.objects.all().order_by("-created_at")
     page = request.GET.get("page")
     page_obj, custom_range = pagination(page, posts)
-    category_list = set([(post.category, post.get_category_display()) for post in posts])
+    category_list = set(
+        [(post.category, post.get_category_display()) for post in posts]
+    )
 
     return render(
         request,
         "home.html",
-        {"posts": posts, "page_obj": page_obj, "custom_range": custom_range, 'category': category_list},
+        {
+            "posts": posts,
+            "page_obj": page_obj,
+            "custom_range": custom_range,
+            "category": category_list,
+        },
     )
 
 
 def category_view(request, category):
-    posts = PostModel.objects.filter(category=category).order_by('-updated_at')
+    posts = PostModel.objects.filter(category=category).order_by("-updated_at")
     page = request.GET.get("page")
     page_obj, custom_range = pagination(page, posts)
     return render(
@@ -57,17 +64,16 @@ def category_view(request, category):
     )
 
 
-
-
 @login_required
 def my_post_view(request):
     posts = PostModel.objects.filter(author=request.user).order_by("-updated_at")
     return render(request, "posts/my_post_page.html", {"posts": posts})
 
+
 @login_required
 def my_comment_view(request):
-    comments = CommentModel.objects.filter(author=request.user).order_by('-updated_at')
-    return render(request, 'posts/my_comment_page.html',{'comments':comments})
+    comments = CommentModel.objects.filter(author=request.user).order_by("-updated_at")
+    return render(request, "posts/my_comment_page.html", {"comments": comments})
 
 
 @login_required
@@ -81,12 +87,11 @@ def post_view(request):
         if post_upload.is_valid():
             new_post = PostModel()
             new_post.author = request.user
-            new_post.category = post_upload.cleaned_data['category']
+            new_post.category = post_upload.cleaned_data["category"]
             new_post.title = post_upload.cleaned_data["title"]
             new_post.description = post_upload.cleaned_data["description"]
             new_post.img_path = post_upload.cleaned_data["img_path"]
             new_post.save()
-
             return redirect("/")
 
     return redirect("/user/login")
@@ -107,7 +112,7 @@ def post_update(request, post_id):
                 updated_at=datetime.datetime.now(),
             )
 
-            return redirect('/post/' + str(post_id) + '/detail')
+            return redirect("/post/" + str(post_id) + "/detail")
 
     else:
         form = PostForm(instance=post)  # ✅
@@ -130,4 +135,3 @@ def post_detail(request, post_id):
         "posts/post_detail.html",
         {"form": form, "post": post, "comment": comment},
     )
-
