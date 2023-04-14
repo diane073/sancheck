@@ -1,10 +1,10 @@
-{% extends "base.html" %}
-<!-- blank -->
-{% block title%} 홈 {%endblock%}
-<!-- blank -->
+{% extends 'base.html' %}
+
+{% block title %}
+    카드 보여주기
+{% endblock %}
 
 {% block content %}
-
 <div>
   현재 로그인 : {{ user }}
   {% if user.is_authenticated %}
@@ -15,6 +15,7 @@
     <span class="sr-only">로그아웃</span>
   </a>
   {%else%}
+
   <a class="nav-link" href={% url "login" %}>
     <span class="sr-only">로그인</span>
   </a>
@@ -32,6 +33,11 @@
 
 
 <main>
+{% for key, value in category %}
+    <a class="nav-link" href= "post/{{ key }}" >
+      <span class="sr-only">{{ value }}</span>
+    </a>
+{% endfor %}
   {% for post in page_obj %}
   <section>
     <div class="profile profile-long">
@@ -49,74 +55,8 @@
   </section>
   {% endfor %}
 </main>
-<div class="page">
-  {% if page_obj.has_other_pages %}
-  <ul style="display: flex; list-style: none">
-    {% if page_obj.has_previous %}
-    <li style="margin: 3px">
-      <a style="text-decoration: none; color: blue" href="?page={{ page_obj.previous_page_number }}">
-        &#10094; Prev
-      </a>
-    </li>
-    {% endif %} {% for page in custom_range %} {% if page == page_obj.number %}
-    <li style="margin: 3px">
-      <a style="text-decoration: none; color: darkred" href="?page={{ page }}">
-        {{ page }}
-      </a>
-    </li>
-    {% else %}
-    <li style="margin: 3px">
-      <a style="text-decoration: none; color: blue" href="?page={{ page }}">
-        {{ page }}
-      </a>
-    </li>
-    {% endif %} {% endfor %} {% if page_obj.has_next %}
-    <li style="margin: 3px">
-      <a style="text-decoration: none; color: blue" href="?page={{ page_obj.next_page_number }}">
-        &#10095; Next
-      </a>
-    </li>
-    {% endif %}
-  </ul>
-  {% endif %}
-</div>
 
-<!-- 충돌 시작 -->
-<div>
-  현재 로그인 : {{ user }}
-  <a class="nav-link" href="/post/note"> 글적기 <span class="sr-only"></span></a>
-</div>
-<main>
-  {% for post in page_obj %}
-  <section>
-    <div class="profile profile-long">
-      <div class="profile__image">
-        <img style="width: 200px; height: auto;" src="media/{{ post.img_path }}" alt="img">
-      </div>
-      <div class="profile__info">
-        <h3>{{ post.name }}</h3>
-        <p class="profile__info__extra">짤막설명</p>
-        {# 작성자 펫정보 가져와서 출력 #}
-      </div>
-      <div class="profile__stats">
-        <p class="profile__stats__title">Type</p>
-        <h5 class="profile__stats__info">Puppy</h5>
-      </div>
-      <div class="profile__stats">
-        <p class="profile__stats__title">Size</p>
-        <h5>Medium</h5>
-      </div>
-      <div class="profile__stats">
-        <p class="profile__stats__title">Weight</p>
-        <h5 class="profile__stats__info">45.85 lbs</h5>
-      </div>
-      <div class="profile__cta">
-        <a class="button" href="/post/{{post.id}}">Click!</a>
-      </div>
-    </div>
-  </section>
-  {% endfor %}
-</main>
+
 <div class="page">
   {% if page_obj.has_other_pages %}
   <ul style="display : flex; list-style : none;">
