@@ -83,6 +83,7 @@ def post_view(request):
         return render(request, "posts/post_create.html", {"form": form})
 
     elif request.method == "POST":
+        print(request.POST)
         post_upload = PostForm(request.POST, request.FILES)
         if post_upload.is_valid():
             new_post = PostModel()

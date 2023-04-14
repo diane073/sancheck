@@ -33,11 +33,15 @@ header {
 }
 .mypost {
   width: 1000px;
-  margin: auto;
+  margin: 0 auto;
 }
 .post {
   width: 800px;
-  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
 }
 .post_btn {
   width: 180px;
@@ -64,3 +68,5 @@ header {
   object-fit: cover;
   object-position: center;
 }
+
+/* post_create.html */

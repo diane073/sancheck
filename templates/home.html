@@ -1,10 +1,14 @@
-{% extends 'base.html' %} {% block title %}홈{% endblock %} {% block content %}
-{% if user.is_authenticated %}
+{% extends 'base.html' %}
+<!-- Title -->
+{% block title%}홈{% endblock %}
+<!-- Content -->
+{% block content %}
+<!-- Blank -->
+{%if user.is_authenticated %}
 <div class="profile__cta">
   <a class="button" href="/post/my">내가 쓴 글 보기!</a>
 </div>
 {% endif %}
-
 <main>
   {% for key, value in category %}
   <a class="nav-link" href="post/{{ key }}">
