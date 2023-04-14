@@ -60,6 +60,14 @@ header {
 .user_detail_btn {
   margin-left: auto;
 }
+/* base.html */
+a {
+  all: unset;
+  cursor: pointer;
+}
+a:hover {
+  color: #ff3a3a;
+}
 
 /* users/profile.html */
 .profile-img {

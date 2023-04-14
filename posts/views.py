@@ -40,8 +40,8 @@ def home(request):
     category_list = set(
         [(post.category, post.get_category_display()) for post in posts]
     )
-    #category_list = PostModel.CATEGORY_CHOICES
-    #카테고리에 글이 없더라도 카테고리가 출력되게 하려면 해당 방식으로 수정이 좋을 것 같음.
+    # category_list = PostModel.CATEGORY_CHOICES
+    # 카테고리에 글이 없더라도 카테고리가 출력되게 하려면 해당 방식으로 수정이 좋을 것 같음.
 
     return render(
         request,
@@ -79,7 +79,9 @@ def my_comment_view(request):
 
 
 @login_required
-def post_view(request):
+def post_view(
+    request,
+):
     if request.method == "GET":
         form = PostForm()
         return render(request, "posts/post_create.html", {"form": form})
@@ -136,10 +138,8 @@ def post_delete(request, post_id):
 def post_detail(request, post_id):
     form = CommentForm()
     post = PostModel.objects.get(id=post_id)
-    comment = CommentModel.objects.filter(post_id=post_id).order_by("-updated_at")
-
-    return render(
-        request,
-        "posts/post_detail.html",
-        {"form": form, "post": post},
+    comments = (
+        CommentModel.objects.all().filter(post_id=post_id).order_by("-updated_at")
     )
+    context = {"form": form, "post": post, "comments": comments}
+    return render(request, "posts/post_detail.html", context)

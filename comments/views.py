@@ -58,13 +58,12 @@ def comment_post(request, post_id):
 
 @csrf_exempt
 @login_required
-def comment_delete(request, post_id, comment_id):
-    # comment_id가 일치하는 것을 가져와서 지우기
-    # post_id를 가져와 지운 창에 돌아가게 해준다.
-    if request.method == "POST":
-        comment = CommentModel.objects.get(id=comment_id)
+def comment_delete(request, comment_id):
+    comment = CommentModel.objects.get(id=comment_id)
+    if comment.author == request.user:
         comment.delete()
-        return redirect(f"/post/{post_id}/detail")
+
+    return redirect("/")
 
 
 def my_comment_view(request):
