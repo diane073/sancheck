@@ -1,59 +1,63 @@
 {% load static %}
 <!doctype html>
 <html lang="ko">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" type="text/css" href="{% static 'bootstrap.min.css' %}">
     <!-- Custom CSS -->
-    <link rel="stylesheet" type="text/css" href="{% static "css/styles.css"%}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css'%}">
     <title>{% block title%}{%endblock%} | PETPALS</title>
 </head>
+
 <body>
-<header class="navbar navbar-expand-lg">
-    <div class="container-fluid">
-        {#홈으로!#} {#이미지 폴더에서 가져오고 싶었는데 다른 html에서 깨져요! 같이 해결 해요!#}
-        <a class="navbar-brand" href="/">
-            <img alt="브랜드 이미지"
-            src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FcR93Qt%2Fbtr9dXnXdXH%2FiGkso4kfeKcovcdSxJrI5k%2Fimg.png"
-            width="300px">
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                {% if user.is_authenticated %}
+    <header class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            {#홈으로!#} {#이미지 폴더에서 가져오고 싶었는데 다른 html에서 깨져요! 같이 해결 해요!#}
+            <a class="navbar-brand" href="/">
+                <img alt="브랜드 이미지"
+                    src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FcR93Qt%2Fbtr9dXnXdXH%2FiGkso4kfeKcovcdSxJrI5k%2Fimg.png"
+                    width="300px">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <span class="nav-link" aria-current="page" >현재 로그인 : {{ user }}</span>
+                        <span class="nav-link" aria-current="page">현재 로그인 : {{ user }}</span>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href={% url "post_view" %}>글쓰기</a>
+                        <a class="nav-link" aria-current="page" href="{% url 'post_view' %}">글쓰기</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url "profile" %}">마이페이지</a>
+                        <a class="nav-link" href="{% url 'profile' %}">마이페이지</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href={% url "logout" %}>로그아웃</a>
+                        <a class="nav-link" href="{% url 'logout' %}">로그아웃</a>
                     </li>
-                {% else %}
-                <li class="nav-item">
-                    <a class="nav-link" href={% url "login" %}>로그인</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href={% url "signup" %}>회원가입</a>
-                </li>
-                {% endif %}
-            </ul>
+                    {% else %}
+                    <li class=" nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">로그인</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'signup' %}">회원가입</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
         </div>
-    </div>
-</header>
+    </header>
 
-<hr/>
+    <hr />
 
-{% block content %}
-{% endblock %}
+    {% block content %}
+    {% endblock %}
 </body>
+
 </html>
