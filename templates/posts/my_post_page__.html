@@ -1,11 +1,3 @@
-{% extends 'base.html' %}
-
-
-{% block title %}
-    내가 쓴 글들.
-{% endblock %}
-
-{% block content %}
 {% for post in posts %}
   <section>
     <div class="profile profile-long">
@@ -26,4 +18,3 @@
     </div>
   </section>
 {% endfor %}
-{% endblock content %}

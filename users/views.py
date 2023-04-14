@@ -60,3 +60,7 @@ def login(request):
 def logout(request):
     auth.logout(request)
     return redirect("/")
+
+@login_required
+def profile(request):
+    return render(request, "users/profile.html")
