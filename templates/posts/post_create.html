@@ -1,7 +1,9 @@
 {% extends 'base.html' %} 
-<!-- Block -->
-{% block title %} 글 쓰기 {% endblock %}
-<!-- Block -->
+{% comment %} Static {% endcomment %}
+{% load static %}
+{% comment %} Title {% endcomment %}
+{% block title %} 글쓰기 {% endblock %}
+{% comment %} Content {% endcomment %}
 {% block content %}
 
 <div class="post">
@@ -20,7 +22,7 @@
             <span class="input-group-text" id="basic-addon1">제목</span>
             {{ form.title }}
         </div>
-        <div class="input-group mb-3">
+        <div class="input-group mb-3 post__input">
             <label class="input-group-text" for="inputGroupFile01"
             >이미지 업로드</label>
              <div class="form-control">{{ form.img_path.value }}</div>
@@ -32,7 +34,7 @@
             <span class="input-group-text" id="basic-addon1">반려동물 종류</span>
             {{ form.pets }}
         </div>
-        <div class="input-group mb-3">
+        <div class="input-group mb-3 post__input">
             <span class="input-group-text" id="basic-addon1">시간대</span>
             {{ form.time }}
         </div>
