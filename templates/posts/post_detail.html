@@ -1,3 +1,5 @@
+{% extends 'base.html' %}
+{% block content %}
 <div class="col-md-12">
   <div class="card">
     <div class="card-body">
@@ -8,10 +10,10 @@
           <img src="/media/{{ post.img_path }}" />
           <p>설명 : {{ post.description }}</p>
           {% if post.author == user %}
-          <a class="nav-link" href="/post/update/{{post.id}}">
+          <a class="nav-link" href="/post/{{post.id}}/update">
             <span class="sr-only">수정하기</span>
           </a>
-          <a class="nav-link" href="/post/delete/{{post.id}}">
+          <a class="nav-link" href="/post/{{post.id}}/delete">
             <span class="sr-only">삭제하기</span>
           </a>
           {% endif %}
@@ -51,3 +53,4 @@
     </div>
     <hr>
 {% endfor %}
+{% endblock content %}
