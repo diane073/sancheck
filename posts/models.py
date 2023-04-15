@@ -3,12 +3,10 @@ from django.db import models
 from django.conf import settings
 
 
-
-
 class PostModel(models.Model):
     CATEGORY_CHOICES = [
-        ('offer', '구인'),
-        ('search', '구직'),
+        ("offer", "산책해주세요!"),
+        ("search", "산책해줄게요!"),
     ]
 
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)

@@ -1,7 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 from .forms import SignupForm
+from .models import CustomUser
 
 # ✅ ↓ For Email Authentication
 # from allauth.account.views import SignupView
@@ -65,4 +66,20 @@ def logout(request):
 
 @login_required
 def profile(request):
+    if request.method == "POST":
+        user = get_object_or_404(CustomUser, id=request.user.id)
+        if request.POST.get("nickname"):
+            user.nickname = request.POST.get("nickname")
+
+        if request.POST.get("address"):
+            user.address = request.POST.get("address")
+
+        if request.POST.get("is_pet_host") == "true":
+            user.is_pet_host = True
+        else:
+            user.is_pet_host = False
+
+        user.pet_kind = request.POST.get("pet_kind")
+        user.save()
+        return redirect("/user/profile")
     return render(request, "users/profile.html")

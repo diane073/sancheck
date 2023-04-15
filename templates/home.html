@@ -3,77 +3,85 @@
 {% block title%}홈{% endblock %}
 <!-- Content -->
 {% block content %}
-<!-- Blank -->
-{%if user.is_authenticated %}
-<div class="profile__cta">
-  <a class="button" href="/post/my">내가 쓴 글 보기!</a>
-</div>
-<div>
-  <a class="button" href="/comment/my">나의 댓글 보기</a>
-</div>
-{% endif %}
 <main>
-  {% for key, value in category %}
-  <a class="nav-link" href="post/{{ key }}">
-    <span class="sr-only">{{ value }}</span>
-  </a>
-  {% endfor %} {% for post in page_obj %}
-  <section>
-    <div class="profile profile-long">
-      <div class="profile__image">
-        <img
-          style="width: 200px; height: auto"
-          src="media/{{ post.img_path }}"
-          alt="img"
-        />
-      </div>
-      <div class="profile__info">
-        <h3>{{ post.name }}</h3>
-        {# 작성자 펫정보 가져와서 출력 #}
-      </div>
-      <div class="profile__cta">
-        <a class="button" href="/post/{{post.id}}/detail">Click!</a>
-      </div>
-    </div>
-  </section>
-  {% endfor %}
-</main>
-
-<div class="page">
-  {% if page_obj.has_other_pages %}
-  <ul style="display: flex; list-style: none">
-    {% if page_obj.has_previous %}
-    <li style="margin: 3px">
-      <a
-        style="text-decoration: none; color: blue"
-        href="?page={{ page_obj.previous_page_number }}"
-      >
-        &#10094; Prev
-      </a>
-    </li>
-    {% endif %} {% for page in custom_range %} {% if page == page_obj.number %}
-    <li style="margin: 3px">
-      <a style="text-decoration: none; color: darkred" href="?page={{ page }}">
-        {{ page }}
-      </a>
-    </li>
-    {% else %}
-    <li style="margin: 3px">
-      <a style="text-decoration: none; color: blue" href="?page={{ page }}">
-        {{ page }}
-      </a>
-    </li>
-    {% endif %} {% endfor %} {% if page_obj.has_next %}
-    <li style="margin: 3px">
-      <a
-        style="text-decoration: none; color: blue"
-        href="?page={{ page_obj.next_page_number }}"
-      >
-        &#10095; Next
-      </a>
-    </li>
-    {% endif %}
-  </ul>
+  {% if category %}
+  <div class="my-categories">
+    {% for key, value in category %}
+    <a class="nav-link" href="post/{{ key }}">
+      <span class="sr-only">{{ value }}</span>
+    </a>
+    {% endfor %}
+  </div>
   {% endif %}
-</div>
-{% endblock content %}
+  <!-- Blank -->
+  <div class="home__wrapper">
+    {% for post in page_obj %}
+    <a href="/post/{{post.id}}/detail">
+      <div class="profile profile-long">
+        <div class="profile__image">
+          <img
+            style="width: 200px; height: auto"
+            src="media/{{ post.img_path }}"
+            alt="img"
+          />
+        </div>
+        <div class="profile__info">
+          <h5>작성자 : {{ post.author.nickname }}</h5>
+        </div>
+        <div class="profile__cta"></div>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+</main>
+<footer>
+  <div class="page">
+    {% if page_obj.has_other_pages %}
+    <ul style="display: flex; list-style: none">
+      {% if page_obj.has_previous %}
+      <li style="margin: 3px">
+        <a
+          style="text-decoration: none; color: blue"
+          href="?page={{ page_obj.previous_page_number }}"
+        >
+          &#10094; Prev
+        </a>
+      </li>
+      {% endif %}
+      <!-- Blank -->
+      {% for page in custom_range %}
+      <!-- Blank -->
+      {% if page == page_obj.number%}
+      <li style="margin: 3px">
+        <a
+          style="text-decoration: none; color: darkred"
+          href="?page={{ page }}"
+        >
+          {{ page }}
+        </a>
+      </li>
+      {% else %}
+      <li style="margin: 3px">
+        <a style="text-decoration: none; color: blue" href="?page={{ page }}">
+          {{ page }}
+        </a>
+      </li>
+      {% endif %}
+      <!-- Blank -->
+      {% endfor %}
+      <!-- Blank -->
+      {% if page_obj.has_next %}
+      <li style="margin: 3px">
+        <a
+          style="text-decoration: none; color: blue"
+          href="?page={{ page_obj.next_page_number }}"
+        >
+          &#10095; Next
+        </a>
+      </li>
+      {% endif %}
+    </ul>
+    {% endif %}
+  </div>
+</footer>
+{% endblock %}

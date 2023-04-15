@@ -79,15 +79,14 @@ def my_comment_view(request):
 
 
 @login_required
-def post_view(
-    request,
-):
+def post_view(request):
     if request.method == "GET":
         form = PostForm()
         return render(request, "posts/post_create.html", {"form": form})
 
     elif request.method == "POST":
         print(request.POST)
+        print(request.FILES)
         post_upload = PostForm(request.POST, request.FILES)
         if post_upload.is_valid():
             new_post = PostModel()
