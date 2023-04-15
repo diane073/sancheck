@@ -48,7 +48,7 @@
           {% if comment.author == user %}
           <a class="badge bg-info rounded-pill" href="#">수정
           </a>
-          <a class="badge bg-danger rounded-pill" href="{% url 'delete_comment' comment_id=comment.id %}">
+          <a class="badge bg-danger rounded-pill" href="{% url 'comments:delete_comment' comment_id=comment.id %}">
             삭제
           </a>
           {% endif %}

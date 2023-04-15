@@ -34,8 +34,7 @@ def comment_post(request, post_id):
         if not content:
             # 댓글 내용이 없을 경우
             # 가능하다면 html에 {{error_message}} 띄워주기
-            message = "댓글 내용을 적어주세요"
-            return render(request, "post/post_detail.html", {"error_message": message})
+            return render(request, "post/post_detail.html")
 
         elif comment_form.is_valid():
             # 해당하는 포스트, 요청 User함께 입력하여 저장
@@ -53,9 +52,40 @@ def comment_post(request, post_id):
 def comment_delete(request, comment_id):
     comment = CommentModel.objects.get(id=comment_id)
     if comment.author == request.user:
+        post_id = comment.post_id
         comment.delete()
 
-    return redirect("/")
+        return redirect(f"/post/{post_id}/detail")
+    else:
+        return HttpResponse("댓글 주인아니면 삭제 실패")
+
+
+@csrf_exempt
+@login_required
+def comment_update(request, comment_id):
+    comment = get_object_or_404(CommentModel, id=comment_id)
+    if request.method == "POST":
+        form = CommentForm(request.POST, instance=comment)
+
+        if form.is_valid():
+            comment = comment.save(update_fields=["content", "updated_at"])
+            return render(request, "post/post_detail.html")
+
+        # if form.is_valid():
+        #     comment = comment.update(
+        #         content=form.cleaned_data["content"],
+        #         updated_at=form.cleaned_data["updated_at"],
+        #     )
+        #     return render(request, "post/post_detail.html")
+
+        else:
+            return HttpResponse("댓글 수정에 실패했습니다. 다시 시도해주세요")
+
+    else:
+        form = CommentForm(instance=comment)
+        return render(
+            request, "post_detail.html", {"form": form, "comment": comment_id}
+        )
 
 
 class MyCommentList(generic.ListView):
