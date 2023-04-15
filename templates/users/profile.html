@@ -19,82 +19,94 @@
       <div class="col-md-8">
         <div class="card-body">
           <h5 class="card-title">프로필</h5>
-          <div class="input-group mb-3">
-            <span class="input-group-text" id="inputGroup-sizing-default"
-              >닉네임</span
-            >
-            <input
-              type="text"
-              placeholder="{{ user }}"
-              class="form-control"
-              aria-label="Sizing example input"
-              aria-describedby="inputGroup-sizing-default"
-            />
-          </div>
-          <div class="input-group mb-3">
-            <span class="input-group-text" id="inputGroup-sizing-default"
-              >이메일</span
-            >
-            <input
-              type="text"
-              placeholder="{{ user.username }}"
-              class="form-control"
-              aria-label="Sizing example input"
-              aria-describedby="inputGroup-sizing-default"
-            />
-          </div>
-          <div class="input-group mb-3">
-            <span class="input-group-text" id="inputGroup-sizing-default"
-              >주소</span
-            >
-            <input
-              type="text"
-              placeholder="{{ user.address }}"
-              class="form-control"
-              aria-label="Sizing example input"
-              aria-describedby="inputGroup-sizing-default"
-            />
-          </div>
-          <div class="input-group mb-3">
-            <span class="input-group-text" id="inputGroup-sizing-default"
-              >반려동물 주인?</span
-            >
-            <input
-              type="text"
-              placeholder="{{ user.is_pet_host }}"
-              class="form-control"
-              aria-label="Sizing example input"
-              aria-describedby="inputGroup-sizing-default"
-            />
-          </div>
-          <div class="input-group mb-3">
-            <span class="input-group-text" id="inputGroup-sizing-default"
-              >반려동물 종류</span
-            >
-            <input
-              type="text"
-              placeholder="{{ user.pet_kind }}"
-              class="form-control"
-              aria-label="Sizing example input"
-              aria-describedby="inputGroup-sizing-default"
-            />
-          </div>
-          <div class="input-group mb-3">
-            <input type="file" class="form-control" id="inputGroupFile02" />
-            <label class="input-group-text" for="inputGroupFile02"
-              >이미지 변경</label
-            >
-          </div>
-          <div class="profile_button">
-            <button type="submit" class="btn btn-info">변경</button>
-            <button
-              onclick="location.href='/'"
-              type="button"
-              class="btn btn-secondary"
-            >
-              취소
-            </button>
-          </div>
+          <form method="post" action="{% url "profile"%}">
+            {% csrf_token %}
+            <div class="input-group mb-3">
+              <span class="input-group-text" id="inputGroup-sizing-default"
+                >닉네임</span
+              >
+              <input
+                type="text"
+                placeholder="{{ user.nickname }}"
+                class="form-control"
+                name = "nickname"
+              />
+            </div>
+            <div class="input-group mb-3">
+              <span class="input-group-text" id="inputGroup-sizing-default"
+                >이메일</span
+              >
+              <input
+                type="text"
+                placeholder="{{ user.username }}"
+                class="form-control"
+                name= "username"
+                disabled
+              />
+            </div>
+            <div class="input-group mb-3">
+              <span class="input-group-text" id="inputGroup-sizing-default"
+                >주소</span
+              >
+              <input
+                type="text"
+                placeholder="{{ user.address }}"
+                class="form-control"
+                name="address"
+              />
+            </div>
+            <div class="input-group mb-3">
+              <span class="input-group-text" id="inputGroup-sizing-default"
+                >반려동물이 있나요?</span
+              >
+              <select class="form-control" name="is_pet_host">
+                <option value="true" {%if user.is_pet_host == True%}selected {%endif%}>
+                네
+                </option>
+                <option value="false" {%if user.is_pet_host == False %}selected {%endif%}>
+                  아니요
+                </option>
+              </select>
+            </div>
+            <div class="input-group mb-3">
+              <span class="input-group-text" id="inputGroup-sizing-default">
+                어떤 반려동물을 기르나요?
+              </span>
+              <select class="form-control" name="pet_kind">
+                <option value="dog" 
+                {%if user.pet_kind == "dog"%}selected {%endif%}>
+                강아지
+                </option>
+                <option value="cat"
+                {%if user.pet_kind == "cat"%}selected {%endif%}>
+                고양이
+                </option>
+                <option value="rabbit"
+                {%if user.pet_kind == "rabbit"%}selected {%endif%}>
+                토끼
+                </option>
+                <option value="hamster"
+                {%if user.pet_kind == "hamster"%}selected {%endif%}>
+                햄스터
+                </option>
+                <option value="etc"
+                {%if user.pet_kind == "etc"%}selected {%endif%}>
+                그외
+                </option>
+              </select>
+            </div>
+            <div class="profile_button">
+              <button type="submit" class="btn btn-info">변경</button>
+              <button
+                onclick="location.href='/'"
+                type="button"
+                class="btn btn-secondary"
+              >
+                취소
+              </button>
+            </div>
+          </form>
+          
         </div>
       </div>
     </div>
