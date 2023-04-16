@@ -67,25 +67,25 @@ def comment_update(request, comment_id):
     if request.method == "POST":
         form = CommentForm(request.POST, instance=comment)
 
-        if form.is_valid():
-            comment = comment.save(update_fields=["content", "updated_at"])
-            return render(request, "post/post_detail.html")
-
         # if form.is_valid():
-        #     comment = comment.update(
-        #         content=form.cleaned_data["content"],
-        #         updated_at=form.cleaned_data["updated_at"],
-        #     )
+        #     comment = comment.save(update_fields=["content", "updated_at"])
+        #     post_id = comment.post_id
         #     return render(request, "post/post_detail.html")
+
+        if form.is_valid():
+            comment = comment.update(
+                content=form.cleaned_data["content"],
+                updated_at=form.cleaned_data["updated_at"],
+            )
+            post_id = post_id = comment.post_id
+            return redirect(f"/post/{post_id}/detail")
 
         else:
             return HttpResponse("댓글 수정에 실패했습니다. 다시 시도해주세요")
 
     else:
         form = CommentForm(instance=comment)
-        return render(
-            request, "post_detail.html", {"form": form, "comment": comment_id}
-        )
+        return render(request, "comment_update.html", {"form": form, "comment_id": comment_id})
 
 
 class MyCommentList(generic.ListView):
@@ -93,7 +93,7 @@ class MyCommentList(generic.ListView):
     model = CommentModel
     template_name = "comments/my_comment.html"
     context_object_name = "latest_comment_list"
-    paginate_by = 10
+    paginate_by = 20
 
     def get_queryset(self):
         # 최근 댓글 불러오기
