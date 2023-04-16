@@ -1,58 +1,55 @@
-{% extends 'base.html' %} 
+{% extends 'base.html' %}
 <!-- Static -->
 {% load static %}
 <!-- Title -->
-{% block title %} 글쓰기 {% endblock %}
+{% block title %}
+  글쓰기
+{% endblock %}
 <!-- Content -->
 {% block content %}
 
-<div class="post">
+  <div class="post">
     <h1>게시물 추가</h1>
     {% if id %}
-        <form class="form-area" method="post" enctype="multipart/form-data" action="/post/{{ id }}/update" >
-    {% else %}
-        <form class="form-area" method="post" enctype="multipart/form-data" action="/post/note" >
-    {% endif %}
+      <form class="form-area" method="post" enctype="multipart/form-data" action="/post/{{ id }}/update">
+      {% else %}
+        <form class="form-area" method="post" enctype="multipart/form-data" action="/post/note">
+        {% endif %}
         {% csrf_token %}
         <div class="input-group mb-3">
-            <span class="input-group-text" id="basic-addon1">카테고리</span>
-            {{ form.category }}
+          <span class="input-group-text" id="basic-addon1">카테고리</span>
+          {{ form.category }}
         </div>
         <div class="input-group mb-3">
-            <span class="input-group-text" id="basic-addon1">제목</span>
-            {{ form.title }}
+          <span class="input-group-text" id="basic-addon1">제목</span>
+          {{ form.title }}
         </div>
         <div class="input-group mb-3 post__input">
-            <label class="input-group-text" for="inputGroupFile01"
-            >이미지 업로드</label>
-             <div class="form-control">{{ form.img_path.value }}</div>
-            {{ form.img_path }}
+          <label class="input-group-text" for="inputGroupFile01">이미지 업로드</label>
+          <div class="form-control">{{ form.img_path.value }}</div>
+          {{ form.img_path }}
 
         </div>
 
         <div class="input-group mb-3">
-            <span class="input-group-text" id="basic-addon1">반려동물 종류</span>
-            {{ form.pets }}
+          <span class="input-group-text" id="basic-addon1">반려동물 종류</span>
+          {{ form.pets }}
         </div>
         <div class="input-group mb-3 post__input">
-            <span class="input-group-text" id="basic-addon1">시간대</span>
-            {{ form.time }}
+          <span class="input-group-text" id="basic-addon1">시간대</span>
+          {{ form.time }}
         </div>
         <div class="form-floating">
-            <label for="floatingTextarea2">Comments</label>
-            {{ form.description }}
+          <label for="floatingTextarea2">글 내용을 적어주세요</label>
+          {{ form.description }}
         </div>
         <div class="post_btn">
-            <button type="submit" class="btn btn-primary">게시하기</button>
-            <button
-            type="button"
-            onclick="location.href='/'"
-            class="btn btn-outline-primary"
-            >
+          <button type="submit" class="btn btn-primary">게시하기</button>
+          <button type="button" onclick="location.href='/'" class="btn btn-outline-primary">
             취소
-            </button>
+          </button>
         </div>
-    </form>
-</div>
-<!-- Block -->
-{% endblock %}
+      </form>
+    </div>
+    <!-- Block -->
+  {% endblock %}
