@@ -19,11 +19,12 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
 
+app_name = "sancheck"
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("users.urls")),
     path("", include("posts.urls")),
-    path("", include("comments.urls")),
+    path("", include(("comments.urls", "comments"), namespace="comments")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # path("accounts/", include("allauth.urls")),  # ✅ ← For Email Authentication

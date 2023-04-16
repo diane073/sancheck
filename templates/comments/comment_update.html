@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h3>내 댓글 수정</h3>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="media">
+        <div class="media-body">
+          <ul>
+            {% if comment.author == user %}
+              {{form}}
+                <a class="badge bg-info rounded-pill" href="{% url 'comments:update_comment' comment_id=comment.id%}">수정 완료
+                </a>
+              {% endif %}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endblock content %}

@@ -12,7 +12,7 @@ class CommentModel(models.Model):
     # comment 기본 모델
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     post = models.ForeignKey(PostModel, on_delete=models.CASCADE)
-    content = models.CharField(max_length=500, help_text="500자를 넘었습니다.")
+    content = models.CharField(max_length=300)
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="created_at")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="updated_at")
 
